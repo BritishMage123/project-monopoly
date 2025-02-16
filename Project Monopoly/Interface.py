@@ -1,27 +1,25 @@
 import pygame
 import Interface_library as Game_Library
-
-
+import Game_instance as Game
 # creates the 3 buttons for the menu
-Start_Game = Game_Library.Button(Game_Library.x * (1 / 10), Game_Library.y * (7 / 10), Game_Library.button_image, 400,
-                                 100)
-Settings = Game_Library.Button(Game_Library.x * (4 / 10), Game_Library.y * (7 / 10), Game_Library.button_image, 400,
-                               100)
-Exit = Game_Library.Button(Game_Library.x * (7 / 10), Game_Library.y * (7 / 10), Game_Library.button_image, 400, 100)
-
+Start_Game = Game_Library.Button(Game_Library.x * (2 / 10), Game_Library.y * (7 / 10),
+                                 400, 100, "Start Game")
+Settings = Game_Library.Button(Game_Library.x * (5 / 10), Game_Library.y * (7 / 10),
+                               400, 100, "Ai Settings")
+Exit = Game_Library.Button(Game_Library.x * (8 / 10), Game_Library.y * (7 / 10), 400,
+                           100, "Exit")
 run = True
 while run:
     Game_Library.clock.tick(Game_Library.fps)
     Game_Library.draw_starting_background()
-    #Game_Library.draw_starting_screen("Property Tycoon", 4.4, 1.5, 0.1, 0.1)
-    Start_Game.draw("Start Game")
-    Settings.draw("Ai Settings")
-    Exit.draw("Exit")
+    Start_Game.draw()
+    Settings.draw()
+    Exit.draw()
 
     # checks if the player has started the game
     if Start_Game.Clicked:
         Start_Game.clicked_off()
-        print("button 1 works")
+        Game.load_game()
 
     # user gets to set the screen size
     if Settings.Clicked:
