@@ -1,0 +1,33 @@
+[
+    {
+        "space_type": "GO",
+        "name": "GO!",
+        "image": "Graphics/spaces/GO.jpg",
+        "pass_reward": 200
+    },
+    {
+        "space_type": "PROPERTY",
+        "name": "1 Worcester Ave",
+        "image": "Graphics/spaces/1WA.jpg"
+    },
+    {
+        "space_type": "PROPERTY",
+        "name": "2 Worcester Ave",
+        "image": "Graphics/spaces/2WA.jpg"
+    },
+    {
+        "space_type": "PROPERTY",
+        "name": "3 Worcester Ave",
+        "image": "Graphics/spaces/3WA.jpg"
+    },
+    {
+        "space_type": "CHANCE",
+        "name": "CHANCE?",
+        "image": "Graphics/spaces/CHANCE.jpg"
+    },
+    {
+        "space_type": "JAIL",
+        "name": "JAIL",
+        "image": "Graphics/spaces/JAIL.jpg"
+    }
+]
