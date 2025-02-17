@@ -1,57 +1,63 @@
-from enum import Enum
-import json
+from properties import Property
 
 class Space:
-    def __init__(self, space_type=None, pass_reward=None, text=None, image=None):
-        self.next_space = None
-        self.space_type = space_type # this will probably be replaced by another object
-                                    # for example, a "property" or "chance" object, or a parent of those two
-        self.pass_reward = pass_reward
-        self.text = text
-        self.image = image
+    def __init__(self, space_type=None, pass_reward=None, text=None, image=None, coordinates=None):
+        self.__next_space = None
+        self.__space_type = space_type
+        self.__pass_reward = pass_reward
+        self.__text = text
+        self.__image = image
+        self.__coordinates = coordinates
+
+    def set_next_space(self, next_space):
+        self.__next_space = next_space
+
+    def get_next_space(self):
+        return self.__next_space
+
+    def set_space_type(self, space_type):
+        self.__space_type = space_type
+    
+    def get_space_type(self):
+        return self.__space_type
+    
+    def set_pass_reward(self, reward):
+        self.__pass_reward = reward
+    
+    def get_pass_reward(self):
+        return self.__pass_reward
+    
+    def set_text(self, text):
+        self.__text = text
+
+    def get_text(self):
+        return self.__text
+    
+    def set_image(self, image):
+        self.__image = image
+
+    def get_image(self):
+        return self.__image
+    
+    def set_coordinates(self, coordinates):
+        self.__coordinates = coordinates
+
+    def get_coordinates(self):
+        return self.__coordinates
 
 class LinkedSpaceList:
     """
-    This is a linked list implementation for board spaces.
-    It generates a circular chain of spaces from the data in space_data.json.
+    This is a linked list representation for board spaces.
     """
-    def __init__(self, space_data):
-        self.head_space = None
-        self.generate_list_from_json(space_data)
+    def __init__(self):
+        self.__head_space = None
 
-    def generate_list_from_json(self, json_file):
-        with open(json_file, 'r') as file:
-            space_info = json.load(file)
+    def set_head_space(self, head_space: Space):
+        self.__head_space = head_space
 
-        # initialize head space
-        self.head_space = Space(
-            space_type=space_info[0].get("space_type"),
-            pass_reward=space_info[0].get("pass_reward"),
-            text=space_info[0].get("custom_text"),
-            image=space_info[0].get("image")
-        )
-
-        curr_space = self.head_space
-        for s in space_info[1:]: # loop everything after head space
-            new_space = Space(
-                space_type=s.get("space_type"),
-                pass_reward=s.get("pass_reward"),
-                text=s.get("custom_text"),
-                image=s.get("image")
-            )
-            curr_space.next_space = new_space
-            curr_space = new_space
-
-        # link the last space to the head to make it circular
-        curr_space.next_space = self.head_space
-
-if __name__ == "__main__":
-    space_list = LinkedSpaceList("space_data.json")
-
-    curr_space = space_list.head_space
-    first_space = curr_space
-    while True:
-        print(curr_space.image)
-        curr_space = curr_space.next_space
-        if curr_space == first_space:
-            break  # Stop after completing a full cycle
+    def get_head_space(self):
+        return self.__head_space
+    
+    def get_space_from_property(self, property: Property):
+        # TODO: walk through linked list until space text matches property name
+        pass
