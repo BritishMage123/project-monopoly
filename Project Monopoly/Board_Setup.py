@@ -19,6 +19,8 @@ class Space:
         else:
             self.board_slot_img = pygame.image.load(rf"Graphics\Map\Corner_slot.png").convert_alpha()
         self.board_slot_img = pygame.transform.rotate(self.board_slot_img, self.space_rotation)
+        self.rect = self.board_slot_img.get_rect()
+        self.rect.center = (x_coordinate, y_coordinate)
 
     def scale(self):
         if self.space_type == "corner":
@@ -37,30 +39,47 @@ class Space:
         Game_Library.screen.blit(self.board_slot_img, (self.x_coordinate, self.y_coordinate))
         self.board_slot_img = pygame.transform.scale(self.board_slot_img, (x_scale, y_scale))
 
+    def get_x_and_y(self):
+        return self.x_coordinate, self.y_coordinate
+    #def set_x_and_y(self, x, y):
+
 
 def load_test_board():
     spaces = []
+
+    # makes the 1st space
+    space = Space("corner", Game_Library.x * (11 / 13), Game_Library.y * (11 / 13), 0)
+    spaces.append(space)
+
+    # makes spaces 2-10
     for i in range(2, 11):
-        # outputs the bottom row
         space = Space("Property", Game_Library.x * (i / 13), Game_Library.y * (11 / 13), 0)
         spaces.append(space)
 
-        # outputs the right column
-        space = Space("Property", Game_Library.x * (11 / 13), Game_Library.y * (i / 13), 90)
-        spaces.append(space)
+    # makes the 11th space
+    space = Space("corner", Game_Library.x * (0 / 13), Game_Library.y * (11 / 13), 0)
+    spaces.append(space)
 
-        # outputs the top row
-        space = Space("Property", Game_Library.x * (i / 13), Game_Library.y * (0 / 13), 180)
-        spaces.append(space)
-
-        # outputs the left column
+    # makes the spaces 12-20
+    for i in range(2, 11):
         space = Space("Property", Game_Library.x * (0 / 13), Game_Library.y * (i / 13), 270)
         spaces.append(space)
 
-    cord = [0, 11]
-    for i in range(2):
-        space = Space("corner", Game_Library.x * (0 / 13), Game_Library.y * (cord[i] / 13), 0)
+    # makes the 21st space
+    space = Space("corner", Game_Library.x * (0 / 13), Game_Library.y * (0 / 13), 0)
+    spaces.append(space)
+
+    # makes the spaces 22-30
+    for i in range(2, 11):
+        space = Space("Property", Game_Library.x * (i / 13), Game_Library.y * (0 / 13), 180)
         spaces.append(space)
-        space = Space("corner", Game_Library.x * (11 / 13), Game_Library.y * (cord[i] / 13), 0)
+
+    # makes the 31st space
+    space = Space("corner", Game_Library.x * (11 / 13), Game_Library.y * (0 / 13), 0)
+    spaces.append(space)
+    # makes the spaces 32-40
+    for i in range(2, 11):
+        space = Space("Property", Game_Library.x * (11 / 13), Game_Library.y * (i / 13), 90)
         spaces.append(space)
+
     return spaces

@@ -8,6 +8,8 @@ dice_2 = Game_Library.Dice(6.5, 5)
 dice_button = Game_Library.Button(Game_Library.x * (5 / 10), Game_Library.y * (5 / 10),
                                   400, 100, "Roll dice")
 
+player_img = pygame.image.load(rf"Graphics\Icons and backgrounds\cart.png").convert_alpha()
+player = PlayablePlayer(player_img,Game_Library.x * (11 / 13),Game_Library.y * (11 / 13),)
 
 def load_game():
     text_one = ""
