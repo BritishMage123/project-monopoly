@@ -1,59 +1,134 @@
-# Importing pygame module
 import pygame
-import Interface_library as Game_Library
-import Board_Setup as Map
+import interface_library
+import board_setup
+import dice
+from entities import PlayablePlayer
 
-dice_1 = Game_Library.Dice(2.5, 5)
-dice_2 = Game_Library.Dice(6.5, 5)
-dice_button = Game_Library.Button(Game_Library.x * (5 / 10), Game_Library.y * (5 / 10),
-                                  400, 100, "Roll dice")
+class GameInstance:
+    def __init__(self):
+        pygame.init()
 
-player_img = pygame.image.load(rf"Graphics\Icons and backgrounds\cart.png").convert_alpha()
-player = PlayablePlayer(player_img,Game_Library.x * (11 / 13),Game_Library.y * (11 / 13),)
+        # Create two dice and a dice roll button
+        self.dice_1 = dice.Dice(2.5, 5)
+        self.dice_2 = dice.Dice(6.5, 5)
+        self.dice_button = interface_library.Button(
+            interface_library.x * 0.5,
+            interface_library.y * 0.5,
+            200, 50,
+            "Roll dice"
+        )
 
-def load_game():
-    text_one = ""
-    text_two = ""
-    rolled = False
-    spaces = Map.load_test_board()
-    # Draws the surface object to the screen.
-    game_run = True
-    animation_cooldown = 0
-    while game_run:
-        if animation_cooldown == 0:
-            Game_Library.draw_starting_board()
-            for i in range(len(spaces)):
-                spaces[i].draw()
-        Game_Library.draw_panel(6, 4, 2, 3.5, text_one, text_two)
-        dice_1.draw()
-        dice_2.draw()
-        dice_button.draw()
+        # Load the board (linked list of spaces)
+        self.spaces = board_setup.load_test_board()
 
-        # if the dice button is clicked
-        if dice_button.Clicked:
-            print("click is detected")
-            dice_button.clicked_off()
-            rolled = True
-            animation_cooldown = 30
+        # Create a single player
+        player_img = pygame.image.load("Graphics/Icons and backgrounds/cart.png").convert_alpha()
+        player_img = pygame.transform.scale(player_img, (100,100))
+        self.player = PlayablePlayer("Player1", player_img, self.spaces)
 
-        # this happens once the button is clicked showing the dice animation
-        if animation_cooldown > 0:
-            dice_1.roll_dice()
-            dice_2.roll_dice()
-            animation_cooldown -= 1
+        self.text_one = ""
+        self.text_two = ""
+        self.rolled = False
+        self.animation_cooldown = 0
+        self.game_run = True
 
-        # once the animation is finished the total value will be calculated and displayed
-        if rolled is True and animation_cooldown == 0:
-            movement_amount = dice_1.return_dice_value() + dice_2.return_dice_value()
-            text_one = "You will move ", movement_amount, "spaces"
-            rolled = False
+    def draw_spaces(self):
+        """
+        Draws each space by retrieving its top-left and bottom-right corners
+        from the space's coordinates.
+        """
 
+        head_space = self.spaces.get_head_space()
+        curr_space = head_space
+        first_iteration = True
+
+        while True:
+            if curr_space == head_space and not first_iteration:
+                break
+            first_iteration = False
+
+            # Unpack the triple
+            (x1, y1), (x2, y2), (mx, my) = curr_space.get_coordinates()
+            width = x2 - x1
+            height = y2 - y1
+
+            # Draw filled red rectangle
+            pygame.draw.rect(
+                interface_library.screen,
+                (251,57,45),  # Red color
+                (x1, y1, width, height // 4)
+            )
+
+            # Draw black outline 1
+            pygame.draw.rect(
+                interface_library.screen,
+                (0, 0, 0),  # Black color
+                (x1, y1, width, height // 4),
+                2  # Outline thickness
+            )
+
+            # Draw black outline 2
+            pygame.draw.rect(
+                interface_library.screen,
+                (0, 0, 0),  # Black color
+                (x1, y1, width, height),
+                2  # Outline thickness
+            )
+
+            curr_space = curr_space.get_next_space()
+            if curr_space is None:
+                break
+
+    def run(self):
+        while self.game_run:
+            interface_library.clock.tick(interface_library.fps)
+            self.handle_events()
+            self.handle_dice_roll()
+            self.draw()
+
+    def handle_dice_roll(self):
+        """Handles dice rolling animation and updates player movement."""
+        if self.animation_cooldown > 0:
+            self.dice_1.update()
+            self.dice_2.update()
+            self.animation_cooldown -= 1
+        elif self.rolled:
+            movement_amount = self.dice_1.return_dice_value() + self.dice_2.return_dice_value()
+            self.text_one = f"You will move {movement_amount} spaces"
+            self.player.jump_spaces(movement_amount)
+            self.rolled = False
+
+    def handle_events(self):
+        """Handles user interactions such as quitting and rolling the dice."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game_run = False
+                self.game_run = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # left mouse button?
-                    dice_button.clicked_on()
+                if event.button == 1:  # Left mouse button
+                    if self.dice_button.is_hovered():
+                        self.dice_button.clicked_on()
+                        self.rolled = True
+                        self.animation_cooldown = 30
+                        self.dice_1.roll_dice()
+                        self.dice_2.roll_dice()
+
+    def draw(self):
+        interface_library.clear_screen()
+
+        # Background
+        interface_library.screen.fill((204,230,207))
+
+        # Draw the board spaces
+        self.draw_spaces()
+
+        # Draw dice
+        self.dice_1.draw(interface_library.screen, interface_library.x, interface_library.y)
+        self.dice_2.draw(interface_library.screen, interface_library.x, interface_library.y)
+
+        # Draw dice button
+        self.dice_button.draw()
+
+        # Draw the player
+        self.player.draw_player()
+
         pygame.display.update()
-
-
