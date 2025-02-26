@@ -1,85 +1,62 @@
-import pygame
-import Interface_library as Game_Library
+import json
+import os
+from space import LinkedSpaceList, Space
+import interface_library  # your library for screen sizes
 
+def generate_spaces(json_file):
+    with open(json_file, 'r') as file:
+        space_data = json.load(file)
 
-def draw_background_board(x_location, y_location, x_scale, y_scale):
-    board_slot_img = pygame.image.load(rf"Graphics\Map\game slot.png").convert_alpha()
-    board_slot_img = pygame.transform.scale(board_slot_img, (x_scale, y_scale))
-    Game_Library.screen.blit(board_slot_img, (x_location, y_location))
+    num_spaces = len(space_data)
+    num_each_side = (num_spaces // 4) + 1
 
+    # Setup sizes
+    board_margin = 50
+    board_width = interface_library.x - 2 * board_margin
+    s = board_width // num_each_side
 
-class Space:
-    def __init__(self, space_type, x_coordinate, y_coordinate, rotation):
-        self.space_type = space_type
-        self.x_coordinate = x_coordinate
-        self.y_coordinate = y_coordinate
-        self.space_rotation = rotation
-        if self.space_type == "Property":
-            self.board_slot_img = pygame.image.load(rf"Graphics\Map\game slot.png").convert_alpha()
-        else:
-            self.board_slot_img = pygame.image.load(rf"Graphics\Map\Corner_slot.png").convert_alpha()
-        self.board_slot_img = pygame.transform.rotate(self.board_slot_img, self.space_rotation)
-        self.rect = self.board_slot_img.get_rect()
-        self.rect.center = (x_coordinate, y_coordinate)
+    # Directions, assuming clockwise orientation
+    directions = [
+        (-1,0),
+        (0,-1),
+        (1,0),
+        (0,1)
+    ]
 
-    def scale(self):
-        if self.space_type == "corner":
-            x_scale = Game_Library.x * (2 / 13)
-            y_scale = Game_Library.y * (2 / 13)
-        elif self.space_rotation == 0 or self.space_rotation == 180:
-            x_scale = Game_Library.x * (1 / 13)
-            y_scale = Game_Library.y * (2 / 13)
-        else:
-            x_scale = Game_Library.x * (2 / 13)
-            y_scale = Game_Library.y * (1 / 13)
-        return x_scale, y_scale
+    # Space generation
+    space_list = LinkedSpaceList()
 
-    def draw(self):
-        x_scale, y_scale = self.scale()
-        Game_Library.screen.blit(self.board_slot_img, (self.x_coordinate, self.y_coordinate))
-        self.board_slot_img = pygame.transform.scale(self.board_slot_img, (x_scale, y_scale))
+    def create_space(x1, y1, info):
+        x2, y2 = x1 + s, y1 + s
+        mx = (x1 + x2) * 0.5
+        my = (y1 + y2) * 0.5
+        new_space = Space(info["space_type"], info["pass_reward"], info["name"], info["image"])
+        new_space.set_coordinates(((x1, y1), (x2, y2), (mx, my)))
+        return new_space
 
-    def get_x_and_y(self):
-        return self.x_coordinate, self.y_coordinate
-    #def set_x_and_y(self, x, y):
+    # Start with bottom right
+    x1, y1 = interface_library.x - board_margin - s, interface_library.y - board_margin - s
+    curr_space = create_space(x1, y1, space_data[0])
+    space_list.set_head_space(curr_space)
 
+    d_idx = 0
+    for i in range(1, num_spaces):
+        d = directions[d_idx % 4]
+        dx = d[0] * s
+        dy = d[1] * s
+        x1, y1 = x1 + dx, y1 + dy
+        new_space = create_space(x1, y1, space_data[i])
+        curr_space.set_next_space(new_space)
+        curr_space = new_space
+        if i % (num_each_side - 1) == 0:
+            d_idx += 1
+
+    curr_space.set_next_space(space_list.get_head_space())
+    
+    return space_list
 
 def load_test_board():
-    spaces = []
-
-    # makes the 1st space
-    space = Space("corner", Game_Library.x * (11 / 13), Game_Library.y * (11 / 13), 0)
-    spaces.append(space)
-
-    # makes spaces 2-10
-    for i in range(2, 11):
-        space = Space("Property", Game_Library.x * (i / 13), Game_Library.y * (11 / 13), 0)
-        spaces.append(space)
-
-    # makes the 11th space
-    space = Space("corner", Game_Library.x * (0 / 13), Game_Library.y * (11 / 13), 0)
-    spaces.append(space)
-
-    # makes the spaces 12-20
-    for i in range(2, 11):
-        space = Space("Property", Game_Library.x * (0 / 13), Game_Library.y * (i / 13), 270)
-        spaces.append(space)
-
-    # makes the 21st space
-    space = Space("corner", Game_Library.x * (0 / 13), Game_Library.y * (0 / 13), 0)
-    spaces.append(space)
-
-    # makes the spaces 22-30
-    for i in range(2, 11):
-        space = Space("Property", Game_Library.x * (i / 13), Game_Library.y * (0 / 13), 180)
-        spaces.append(space)
-
-    # makes the 31st space
-    space = Space("corner", Game_Library.x * (11 / 13), Game_Library.y * (0 / 13), 0)
-    spaces.append(space)
-    # makes the spaces 32-40
-    for i in range(2, 11):
-        space = Space("Property", Game_Library.x * (11 / 13), Game_Library.y * (i / 13), 90)
-        spaces.append(space)
-
-    return spaces
+    json_path = os.path.join("space_data.json")
+    if not os.path.exists(json_path):
+        raise FileNotFoundError(f"Missing JSON file: {json_path}")
+    return generate_spaces(json_path)

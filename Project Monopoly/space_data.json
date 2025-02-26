@@ -1,33 +1,74 @@
 [
     {
+        "name": "Go",
         "space_type": "GO",
-        "name": "GO!",
-        "image": "Graphics/spaces/GO.jpg",
-        "pass_reward": 200
+        "pass_reward": 200,
+        "image": "Graphics/Map/game_slot.png"
     },
     {
+        "name": "Baltic Avenue",
         "space_type": "PROPERTY",
-        "name": "1 Worcester Ave",
-        "image": "Graphics/spaces/1WA.jpg"
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
     },
     {
+        "name": "Community Chest",
+        "space_type": "SPECIAL",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
+    },
+    {
+        "name": "Reading Railroad",
         "space_type": "PROPERTY",
-        "name": "2 Worcester Ave",
-        "image": "Graphics/spaces/2WA.jpg"
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
     },
     {
+        "name": "Oriental Avenue",
         "space_type": "PROPERTY",
-        "name": "3 Worcester Ave",
-        "image": "Graphics/spaces/3WA.jpg"
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
     },
     {
-        "space_type": "CHANCE",
-        "name": "CHANCE?",
-        "image": "Graphics/spaces/CHANCE.jpg"
+        "name": "Chance",
+        "space_type": "SPECIAL",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
     },
     {
+        "name": "Connecticut Avenue",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
+    },
+    {
+        "name": "Jail",
         "space_type": "JAIL",
-        "name": "JAIL",
-        "image": "Graphics/spaces/JAIL.jpg"
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
+    },
+    {
+        "name": "St. Charles Place",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
+    },
+    {
+        "name": "Electric Company",
+        "space_type": "UTILITY",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
+    },
+    {
+        "name": "States Avenue",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
+    },
+    {
+        "name": "Free Parking",
+        "space_type": "FREE_PARKING",
+        "pass_reward": 0,
+        "image": "Graphics/Map/game_slot.png"
     }
 ]
