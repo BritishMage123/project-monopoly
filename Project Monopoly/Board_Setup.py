@@ -1,9 +1,8 @@
 import json
 import os
-from space import LinkedSpaceList, Space
-import interface_library  # your library for screen sizes
+from entities.space import LinkedSpaceList, Space
 
-def generate_spaces(json_file):
+def generate_spaces(json_file, screen_width, screen_height):
     with open(json_file, 'r') as file:
         space_data = json.load(file)
 
@@ -12,7 +11,7 @@ def generate_spaces(json_file):
 
     # Setup sizes
     board_margin = 50
-    board_width = interface_library.x - 2 * board_margin
+    board_width = screen_width - 2 * board_margin
     s = board_width // num_each_side
 
     # Directions, assuming clockwise orientation
@@ -27,15 +26,11 @@ def generate_spaces(json_file):
     space_list = LinkedSpaceList()
 
     def create_space(x1, y1, info):
-        x2, y2 = x1 + s, y1 + s
-        mx = (x1 + x2) * 0.5
-        my = (y1 + y2) * 0.5
-        new_space = Space(info["space_type"], info["pass_reward"], info["name"], info["image"])
-        new_space.set_coordinates(((x1, y1), (x2, y2), (mx, my)))
+        new_space = Space(x1, y1, s, info["space_type"], info["pass_reward"], info["name"], info["image"])
         return new_space
 
     # Start with bottom right
-    x1, y1 = interface_library.x - board_margin - s, interface_library.y - board_margin - s
+    x1, y1 = screen_width - board_margin - s, screen_height - board_margin - s
     curr_space = create_space(x1, y1, space_data[0])
     space_list.set_head_space(curr_space)
 
@@ -55,8 +50,8 @@ def generate_spaces(json_file):
     
     return space_list
 
-def load_test_board():
+def load_test_board(screen_width, screen_height):
     json_path = os.path.join("space_data.json")
     if not os.path.exists(json_path):
         raise FileNotFoundError(f"Missing JSON file: {json_path}")
-    return generate_spaces(json_path)
+    return generate_spaces(json_path, screen_width, screen_height)
