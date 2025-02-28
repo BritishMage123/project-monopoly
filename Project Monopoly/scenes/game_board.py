@@ -4,6 +4,8 @@ from entities.dice import Dice
 from entities.game_agent import GameAgent
 import board_setup
 
+# TODO: Space actions. Each space type will have its own space action (similar to button actions)
+
 class GameBoard(Scene):
     def __init__(self, game_manager):
         super().__init__(game_manager, bg_color=(204,230,207))

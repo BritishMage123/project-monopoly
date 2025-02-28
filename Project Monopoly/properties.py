@@ -1,6 +1,4 @@
 
-import json
-
 class Property:
     def __init__(self, name, value, base_tax, owner=None):
         self.__name = name
@@ -32,20 +30,3 @@ class Property:
 
     def get_tax_multiplier(self):
         return self.__tax_multiplier
-
-class Market:
-    def __init__(self):
-        self.__all_properties = []
-
-    def add_game_property(self, property: Property):
-        self.__all_properties.append(property)
-    
-    def get_all_properties(self):
-        return self.__all_properties
-    
-    def get_property_from_space(self, space):
-        assert(space.get_space_type() == "PROPERTY")
-        for p in self.get_all_properties():
-            if p.get_name() == space.get_text():
-                return p
-        return None

@@ -1,0 +1,54 @@
+{
+    "1 Baltic Avenue": {
+        "value": 100,
+        "base_tax": 10
+    },
+    "2 Baltic Avenue": {
+        "value": 100,
+        "base_tax": 10
+    },
+    "3 Baltic Avenue": {
+        "value": 100,
+        "base_tax": 10
+    },
+    "1 Worcester St": {
+        "value": 350,
+        "base_tax": 35
+    },
+    "2 Worcester St": {
+        "value": 350,
+        "base_tax": 35
+    },
+    "1 London Road": {
+        "value": 500,
+        "base_tax": 200
+    },
+    "2 London Road": {
+        "value": 500,
+        "base_tax": 200
+    },
+    "3 London Road": {
+        "value": 500,
+        "base_tax": 200
+    },
+    "1 Fulham Ave": {
+        "value": 20,
+        "base_tax": 2
+    },
+    "2 Fulham Ave": {
+        "value": 20,
+        "base_tax": 2
+    },
+    "1 Celtic St": {
+        "value": 100,
+        "base_tax": 10
+    },
+    "2 Celtic St": {
+        "value": 100,
+        "base_tax": 10
+    },
+    "1 Beetlejuice St": {
+        "value": 1000,
+        "base_tax": 500
+    }
+}
