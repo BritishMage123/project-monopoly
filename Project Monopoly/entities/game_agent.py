@@ -1,7 +1,7 @@
 import pygame
 import time
 from entities.entity import Entity
-from corporation import Corporation
+from BoardInfo.corporation import Corporation
 
 class GameAgent(Entity, Corporation):
     def __init__(self, name, starting_space, token_path):

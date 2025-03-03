@@ -2,7 +2,7 @@ from scenes.scene import Scene
 from ui.button import Button
 from entities.dice import Dice
 from entities.game_agent import GameAgent
-import board_setup
+from BoardInfo import Board_Setup as board_setup
 
 # TODO: Space actions. Each space type will have its own space action (similar to button actions)
 
