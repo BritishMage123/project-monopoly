@@ -9,6 +9,7 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
         space_data = json.load(file)
 
     num_spaces = len(space_data)
+    assert num_spaces % 4 == 0  # The total number of spaces needs to be divisible by 4 (one space for each side)
     num_each_side = (num_spaces // 4) + 1
 
     # Setup sizes
@@ -58,6 +59,11 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
     return space_list
 
 def load_test_board(screen_width, screen_height):
+    """For testing purposes only"""
     space_json = os.path.join("space_data.json")
     property_json = os.path.join("property_data.json")
     return generate_spaces(space_json, property_json, screen_width, screen_height)
+
+def load_real_board(screen_width, screen_height):
+    """The real deal"""
+    pass

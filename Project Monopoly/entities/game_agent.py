@@ -21,6 +21,8 @@ class GameAgent(Entity, Corporation):
         self.last_move_time = 0  # Track time between jumps
 
     def get_current_space(self):
+        if self.moving:
+            return self.move_path[-1] # if middle of animation, return the final destination
         return self.current_space
 
     def set_current_space(self, space):
@@ -28,17 +30,19 @@ class GameAgent(Entity, Corporation):
 
     def jump_spaces(self, num=1):
         self.move_path = []  # Clear any existing path
-        next_space = self.get_current_space()
+        next_space = self.current_space
         
         for _ in range(num):
-            next_space = next_space.get_next_space()
+            next_space = next_space.next_space
             self.move_path.append(next_space)  # Store space objects
         
         self.moving = True  # Start movement animation
         self.last_move_time = pygame.time.get_ticks()  # Reset move timer
 
+        return self.get_current_space()
+
     def update(self):
-        pos = self.get_current_space().get_coordinates()
+        pos = self.current_space.get_coordinates()
         super().set_pos(pos[2][0], pos[2][1])
 
         # Teleports the player from space to space at a set time interval. 

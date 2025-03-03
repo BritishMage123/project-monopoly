@@ -4,8 +4,6 @@ from entities.dice import Dice
 from entities.game_agent import GameAgent
 import board_setup
 
-# TODO: Space actions. Each space type will have its own space action (similar to button actions)
-
 class GameBoard(Scene):
     def __init__(self, game_manager):
         super().__init__(game_manager, bg_color=(204,230,207))
@@ -39,8 +37,16 @@ class GameBoard(Scene):
         self.add_entity(self.dice2)
 
         # Player
+        # TODO: hard-coded for now
+        # this is where we set up Player and AI agents
         self.player1 = GameAgent("Player 1", self.spaces.get_head_space(), "assets/cart.png")
         self.add_entity(self.player1)
+        self.players = [
+            {
+                "game_agent": self.player1,
+                "called_space_action": True
+            }
+        ]
     
     def roll_dice(self):
         """BUTTON ACTION: roll both dice"""
@@ -49,5 +55,39 @@ class GameBoard(Scene):
         if res1 == res2:
             print("DOUBLES!") # handle doubles
         result = res1 + res2
-        print(result)
         self.player1.jump_spaces(result)
+
+    def on_land(self, player, space):
+        """SCENE EVENT: Called when a player lands on a space (final destination)."""
+
+        # Space type events
+        match space.space_type:
+            case "PROPERTY":
+                from scenes.events.property_event import PropertyEvent
+                PropertyEvent(self, player, space).on_land()
+            case "CHANCE":
+                from scenes.events.chance_event import ChanceEvent
+                ChanceEvent(self, player, space).on_land()
+            case "JAIL":
+                from scenes.events.jail_event import JailEvent
+                JailEvent(self, player, space).on_land()
+            case "GO":
+                from scenes.events.go_event import GoEvent
+                GoEvent(self, player, space).on_land()
+            case "VISITING":
+                from scenes.events.visiting_event import VisitingEvent
+                VisitingEvent(self, player, space).on_land()
+            case "COMMUNITY CHEST":
+                from scenes.events.community_chest_event import CommunityChestEvent
+                CommunityChestEvent(self, player, space).on_land()
+
+    def update(self):
+        super().update()
+
+        # Handles the space landing event
+        for p in self.players:
+            if p["game_agent"].moving:
+                p["called_space_action"] = False
+            if not p["game_agent"].moving and not p["called_space_action"]:
+                self.on_land(p["game_agent"], p["game_agent"].get_current_space())
+                p["called_space_action"] = True
