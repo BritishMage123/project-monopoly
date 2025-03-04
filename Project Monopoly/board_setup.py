@@ -13,7 +13,7 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
     num_each_side = (num_spaces // 4) + 1
 
     # Setup sizes
-    board_margin = 50
+    board_margin = 35
     board_width = screen_size - 2 * board_margin
     s = board_width // num_each_side
 
@@ -30,11 +30,25 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
 
     def create_space(x1, y1, info):
         new_space = Space(x1, y1, s, info["space_type"], info["pass_reward"], info["name"], info["icon"], info["color"])
+        
         # If a property, set up the appropriate property info
         if info["space_type"] == "PROPERTY":
             with open(property_json, 'r') as file:
                 property_info = json.load(file)
             new_space.property = Property(new_space.text, property_info[new_space.text]["value"], property_info[new_space.text]["base_tax"])
+        
+        # Determine quadrant
+        x, y = new_space.rect.x, new_space.rect.y
+        c_x, c_y = screen_width // 2, screen_height // 2
+        if x >= c_x and y >= c_y:
+            new_space.quadrant_idx = 1
+        elif x < c_x and y >= c_y:
+            new_space.quadrant_idx = 2
+        elif x < c_x and y < c_y:
+            new_space.quadrant_idx = 3
+        elif x >= c_x and y < c_y:
+            new_space.quadrant_idx = 4
+
         return new_space
 
     # Start with bottom right

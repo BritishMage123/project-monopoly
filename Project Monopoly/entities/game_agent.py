@@ -7,12 +7,11 @@ class GameAgent(Entity, Corporation):
     def __init__(self, name, starting_space, token_path):
         self.current_space = starting_space
         starting_pos = starting_space.get_coordinates()
-        Entity.__init__(self, starting_pos[0][0], starting_pos[0][1], 60, 60)
+        Entity.__init__(self, starting_pos[0][0], starting_pos[0][1], 60, 60, override_offsets=True)
         Corporation.__init__(self, name)
 
         # Load player token image
         self.token = pygame.image.load(token_path)
-        self.token = pygame.transform.scale(self.token, (self.rect.width, self.rect.height))
 
         # Movement animation variables
         self.moving = False
@@ -65,4 +64,5 @@ class GameAgent(Entity, Corporation):
 
     def render(self, screen):
         """Draws the player's token."""
+        self.token = pygame.transform.scale(self.token, (self.rect.width, self.rect.height))
         screen.blit(self.token, self.rect)

@@ -1,5 +1,6 @@
 import pygame
 from scenes.main_menu import MainMenu
+from scenes.game_board import GameBoard
 
 class GameManager:
     def __init__(self):
@@ -7,7 +8,7 @@ class GameManager:
         self.screen = pygame.display.set_mode((800, 800))
         self.clock = pygame.time.Clock()
         self.running = True
-        self.scene = MainMenu(self)  # Start with Main Menu
+        self.scene = GameBoard(self)  # Start with Game Board
 
     def change_scene(self, new_scene):
         """Switches to a new scene"""
@@ -19,7 +20,7 @@ class GameManager:
             for event in events:
                 if event.type == pygame.QUIT:
                     self.running = False
-
+            
             self.scene.handle_events(events)
             self.scene.update()
             self.scene.render(self.screen)

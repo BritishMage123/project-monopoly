@@ -3,6 +3,8 @@ from ui.button import Button
 from entities.dice import Dice
 from entities.game_agent import GameAgent
 import board_setup
+import time
+import pygame
 
 class GameBoard(Scene):
     def __init__(self, game_manager):
@@ -44,9 +46,12 @@ class GameBoard(Scene):
         self.players = [
             {
                 "game_agent": self.player1,
-                "called_space_action": True
+                "called_on_land": True,
+                "path_size": 0
             }
         ]
+
+        super().on_load()
     
     def roll_dice(self):
         """BUTTON ACTION: roll both dice"""
@@ -56,6 +61,10 @@ class GameBoard(Scene):
             print("DOUBLES!") # handle doubles
         result = res1 + res2
         self.player1.jump_spaces(result)
+
+    def on_pass(self, player, space):
+        """SCENE EVENT: Called when a player ever jumps on a space, but not when they land on one."""
+        self.set_camera_quad(space.quadrant_idx)
 
     def on_land(self, player, space):
         """SCENE EVENT: Called when a player lands on a space (final destination)."""
@@ -84,13 +93,30 @@ class GameBoard(Scene):
                 from scenes.events.taxes_event import TaxesEvent
                 TaxesEvent(self, player, space).on_land()
 
+        # self.set_camera_quad(space.quadrant_idx)
+        # time.sleep(0.5)
+        self.set_camera_quad(0)
+
+    def handle_events(self, events):
+        super().handle_events(events)
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    if self.current_scale_offset_idx == 0:
+                        self.set_camera_quad(self.player1.current_space.quadrant_idx)
+                    else:
+                        self.set_camera_quad(0)
+
     def update(self):
         super().update()
 
-        # Handles the space landing event
+        # Handles the space landing and passing event
         for p in self.players:
             if p["game_agent"].moving:
-                p["called_space_action"] = False
-            if not p["game_agent"].moving and not p["called_space_action"]:
+                p["called_on_land"] = False
+            if not p["game_agent"].moving and not p["called_on_land"]:
                 self.on_land(p["game_agent"], p["game_agent"].get_current_space())
-                p["called_space_action"] = True
+                p["called_on_land"] = True
+            if p["game_agent"].moving and len(p["game_agent"].move_path) != p["path_size"]:
+                self.on_pass(p["game_agent"], p["game_agent"].current_space)
+                p["path_size"] = len(p["game_agent"].move_path)

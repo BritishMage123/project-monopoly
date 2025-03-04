@@ -13,6 +13,9 @@ class Space(Entity):
         self.color = color
         self.property = None
         self.next_space = None
+        self.quadrant_idx = 1
+
+        return None
 
     def get_coordinates(self):
         """Returns (
@@ -63,7 +66,7 @@ class Space(Entity):
             )
             
         # Write the center of self.rect
-        font = pygame.font.Font(None, 20)
+        font = pygame.font.Font(None, 10 * self.camera_scale)
         text_surface = font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
