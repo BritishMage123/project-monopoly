@@ -7,284 +7,136 @@
         "icon": ""
     },
     {
-        "name": "The Old Creek",
-        "color": "Brown",
+        "name": "1 Baltic Avenue",
+        "color": "RED",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Pot Luck",
-        "color": "LIGHTBLUE",
-        "space_type": "CHANCE",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Gangsters Paradise",
-        "color": "Brown",
+        "name": "2 Baltic Avenue",
+        "color": "RED",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Income Tax!",
-        "space_type": "CHANCE",
-        "color": "DARKGREEN",
-        "pass_reward": -200,
+        "name": "3 Baltic Avenue",
+        "color": "RED",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Brighton Station",
+        "name": "CHANCE!",
+        "space_type": "CHANCE",
+        "color": "ORANGE",
+        "pass_reward": 0,
+        "icon": ""
+    },
+    {
+        "name": "Just Visiting",
         "color": "GREY",
         "space_type": "VISITING",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "The Angels Delight",
+        "name": "1 Worcester St",
         "color": "BLUE",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "CHANCE!",
-        "color": "Orange",
-        "space_type": "CHANCE",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Potter Avenue",
+        "name": "2 Worcester St",
         "color": "BLUE",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Granger Drive",
-        "color": "BLUE",
+        "name": "1 London Road",
+        "color": "YELLOW",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
+        "icon": ""
+    },
+    {
+        "name": "2 London Road",
+        "color": "YELLOW",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
         "name": "JAIL",
-        "color": "WHITE",
+        "color": "PURPLE",
         "space_type": "JAIL",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Skywalker Drive",
-        "color": "PURPLE",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Tesla Power Co!",
-        "space_type": "PROPERTY",
-        "color": "PINK",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Wookie Hole",
-        "color": "PURPLE",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Rey Lane",
-        "color": "PURPLE",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Hove Station",
-        "color": "GREY",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Bishop Drive",
-        "color": "ORANGE",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Pot Luck",
-        "color": "LIGHTBLUE",
-        "space_type": "CHANCE",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Dunham Street!",
-        "space_type": "PROPERTY",
-        "color": "ORANGE",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Broyles Lane",
-        "color": "Orange",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Free Parking",
-        "color": "LIGHTORANGE",
-        "space_type": "GO",
-        "pass_reward": 100,
-        "icon": ""
-    },
-    {
-        "name": "Yue Fei Square",
-        "color": "Red",
+        "name": "3 London Road",
+        "color": "YELLOW",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
         "name": "CHANCE!",
-        "color": "Orange",
         "space_type": "CHANCE",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Mulan Rouge",
-        "color": "RED",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Han Xin Gardens",
-        "color": "RED",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Falmer Station",
-        "color": "GREY",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Shatner Close",
-        "color": "YELLOW",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Picard Avenue",
-        "color": "YELLOW",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Shatner Close",
-        "color": "YELLOW",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Edison Water",
-        "color": "PINK",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Crusher Creek",
-        "color": "YELLOW",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Go to Jail",
-        "color": "WHITE",
-        "space_type": "JAIL",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Sirat Mews",
-        "color": "GREEN",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Ghengis Crescent",
-        "color": "GREEN",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Pot Luck ",
-        "color": "LIGHTBLUE",
-        "space_type": "CHANCE",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Ibis Close",
-        "color": "GREEN",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Portslade Station",
-        "color": "GREY",
-        "space_type": "PROPERTY",
-        "pass_reward": 0,
-        "icon": ""
-    },
-    {
-        "name": "Opportunity Knocks",
         "color": "ORANGE",
-        "space_type": "CHANCE",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "James Webb Way",
-        "color": "DARKBLUE",
+        "name": "1 Fulham Ave",
+        "color": "GREEN",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Super Tax",
-        "color": "DARK GREEN",
-        "space_type": "CHANCE",
-        "pass_reward": -100,
+        "name": "2 Fulham Ave",
+        "color": "GREEN",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
         "icon": ""
     },
     {
-        "name": "Turing Heights",
-        "color": "DARKBLUE",
+        "name": "Community Chest",
+        "color": "LIGHTGREEN",
+        "space_type": "COMMUNITY CHEST",
+        "pass_reward": 0,
+        "icon": ""
+    },
+    {
+        "name": "1 Celtic St",
+        "color": "LIGHTBLUE",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
+        "icon": ""
+    },
+    {
+        "name": "2 Celtic St",
+        "color": "LIGHTBLUE",
+        "space_type": "PROPERTY",
+        "pass_reward": 0,
+        "icon": ""
+    },
+    {
+        "name": "CHANCE!",
+        "space_type": "CHANCE",
+        "color": "ORANGE",
+        "pass_reward": 0,
+        "icon": ""
+    },
+    {
+        "name": "1 Beetlejuice St",
+        "color": "LIGHTRED",
         "space_type": "PROPERTY",
         "pass_reward": 0,
         "icon": ""
     }
-
 ]

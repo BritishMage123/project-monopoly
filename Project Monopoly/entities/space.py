@@ -1,7 +1,7 @@
 import pygame
 import json
 from entities.entity import Entity
-from BoardInfo.properties import Property
+from properties import Property
 
 class Space(Entity):
     def __init__(self, x, y, size, space_type, pass_reward, text, icon, color):

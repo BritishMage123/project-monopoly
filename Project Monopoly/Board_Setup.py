@@ -1,7 +1,7 @@
 import json
 import os
 from entities.space import LinkedSpaceList, Space
-from BoardInfo.properties import Property
+from properties import Property
 
 def generate_spaces(space_json, property_json, screen_width, screen_height):
     screen_size = min(screen_width, screen_height)
