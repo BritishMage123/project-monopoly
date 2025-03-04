@@ -80,6 +80,9 @@ class GameBoard(Scene):
             case "COMMUNITY CHEST":
                 from scenes.events.community_chest_event import CommunityChestEvent
                 CommunityChestEvent(self, player, space).on_land()
+            case "TAXES":
+                from scenes.events.taxes_event import TaxesEvent
+                TaxesEvent(self, player, space).on_land()
 
     def update(self):
         super().update()

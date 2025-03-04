@@ -1,14 +1,14 @@
 from scenes.events.scene_event import SceneEvent
 
-class JailEvent(SceneEvent):
+class TaxesEvent(SceneEvent):
     def __init__(self, scene, player, space):
-        # Add entities here with self.scene.add_entity()
         super().__init__(scene, player, space)
 
     def on_land(self):
         """SCENE EVENT: Called when a player lands on this space"""
-        # handle jail case
-        print(f"{self.player.name} landed on a JAIL space.")
+        print(f"{self.player.name} landed on a TAXES space.")
+        print(f"{self.player.name} just lost ${self.space.pass_reward}")
+        lost_amt = -1 * self.space.pass_reward
 
     def on_pass(self):
         """SCENE EVENT: Called when a player passes this space"""
