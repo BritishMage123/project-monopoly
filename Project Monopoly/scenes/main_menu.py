@@ -16,7 +16,7 @@ class MainMenu(Scene):
         self.title_label = TextLabel(screen_width * 0.5, screen_height * 0.25,
                                      "Main Menu")
         self.start_button = Button(screen_width * 0.25, screen_height * 0.5,
-                                   "Start Game", self.start_game)
+                                   "New Game", self.start_game)
         self.quit_button = Button(screen_width * 0.75, screen_height * 0.5,
                                   "Quit", self.quit_game)
 

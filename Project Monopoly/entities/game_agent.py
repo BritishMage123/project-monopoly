@@ -41,9 +41,6 @@ class GameAgent(Entity, Corporation):
         return self.get_current_space()
 
     def update(self):
-        pos = self.current_space.get_coordinates()
-        super().set_pos(pos[2][0], pos[2][1])
-
         # Teleports the player from space to space at a set time interval. 
         if self.moving and self.move_path:
             now = pygame.time.get_ticks()
@@ -51,7 +48,6 @@ class GameAgent(Entity, Corporation):
             if now - self.last_move_time >= self.move_delay:
                 # Move to the next space in the path
                 next_space = self.move_path.pop(0)
-                pos = next_space.get_coordinates()
                 
                 # Update space
                 self.set_current_space(next_space)
@@ -64,5 +60,7 @@ class GameAgent(Entity, Corporation):
 
     def render(self, screen):
         """Draws the player's token."""
+        pos = self.current_space.get_coordinates()
+        super().set_pos(pos[2][0], pos[2][1])
         self.token = pygame.transform.scale(self.token, (self.rect.width, self.rect.height))
         screen.blit(self.token, self.rect)
