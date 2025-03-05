@@ -7,6 +7,7 @@ class GameAgent(Entity, Corporation):
     def __init__(self, name, starting_space, token_path):
         self.current_space = starting_space
         starting_pos = starting_space.get_coordinates()
+        # override_offsets = True ensures camera transforms are ignored
         Entity.__init__(self, starting_pos[0][0], starting_pos[0][1], 60, 60, override_offsets=True)
         Corporation.__init__(self, name)
 
@@ -19,47 +20,62 @@ class GameAgent(Entity, Corporation):
         self.move_delay = 200  # Time in ms between jumps
         self.last_move_time = 0  # Track time between jumps
 
+        # NEW: Cooldown variables
+        self.cooldown_duration = 500  # in milliseconds
+        self.cooldown_active = False
+        self.stop_time = 0  # track when final move ended
+
     def get_current_space(self):
-        if self.moving:
-            return self.move_path[-1] # if middle of animation, return the final destination
+        # If "moving" is True or cooldown is still active, return final destination
+        if self.moving or self.cooldown_active:
+            return self.move_path[-1] if self.move_path else self.current_space
         return self.current_space
 
     def set_current_space(self, space):
         self.current_space = space
 
     def jump_spaces(self, num=1):
-        self.move_path = []  # Clear any existing path
+        self.move_path = []
         next_space = self.current_space
         
         for _ in range(num):
             next_space = next_space.next_space
-            self.move_path.append(next_space)  # Store space objects
+            self.move_path.append(next_space)
         
-        self.moving = True  # Start movement animation
-        self.last_move_time = pygame.time.get_ticks()  # Reset move timer
-
+        self.moving = True
+        self.cooldown_active = False  # reset any previous cooldown
+        self.last_move_time = pygame.time.get_ticks()
         return self.get_current_space()
 
     def update(self):
-        # Teleports the player from space to space at a set time interval. 
+        now = pygame.time.get_ticks()
+
+        # If we are currently moving along the path:
         if self.moving and self.move_path:
-            now = pygame.time.get_ticks()
-            
             if now - self.last_move_time >= self.move_delay:
-                # Move to the next space in the path
+                # Move to the next space
                 next_space = self.move_path.pop(0)
-                
-                # Update space
                 self.set_current_space(next_space)
+                self.last_move_time = now
+                # Sound effect
+                sound = pygame.mixer.Sound("audio/sounds/piece_move.wav")
+                sound.set_volume(0.5)
+                pygame.mixer.Sound.play(sound)
 
-                self.last_move_time = now  # Reset timer
-
-            # If finished moving, stop animation
+            # If finished moving, trigger the cooldown
             if not self.move_path:
-                self.moving = False
+                self.cooldown_active = True
+                self.stop_time = now
+                # Don't set self.moving to False yet -- we wait until cooldown
+
+        # If cooldown is active, check if it's over
+        if self.cooldown_active:
+            if now - self.stop_time >= self.cooldown_duration:
+                self.cooldown_active = False
+                self.moving = False  # Officially end movement
 
     def render(self, screen):
-        """Draws the player's token."""
+        """Draw the player's token at the center of current space."""
         pos = self.current_space.get_coordinates()
         super().set_pos(pos[2][0], pos[2][1])
         self.token = pygame.transform.scale(self.token, (self.rect.width, self.rect.height))

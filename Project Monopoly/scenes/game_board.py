@@ -38,6 +38,8 @@ class GameBoard(Scene):
         self.dice2 = Dice(self.screen_width * 0.6, self.screen_height * 0.6)
         self.add_entity(self.dice1)
         self.add_entity(self.dice2)
+        self.dice_res1 = None
+        self.dice_res2 = None
 
         # Player setup
         self.players = []
@@ -49,21 +51,20 @@ class GameBoard(Scene):
                 "path_size": 0
             })
             self.add_entity(new_player)
-
         self.player_turn = 0
 
         print(f"Loaded {len(self.players)} players.")
 
         super().on_load()
+
+    def rolled_dice_callback(self):
+        result = self.dice_res1 + self.dice_res2
+        self.players[self.player_turn]["game_agent"].jump_spaces(result)
     
     def roll_dice(self):
         """BUTTON ACTION: roll both dice"""
-        res1 = self.dice1.roll()
-        res2 = self.dice2.roll()
-        if res1 == res2:
-            print("DOUBLES!") # handle doubles
-        result = res1 + res2
-        self.players[self.player_turn]["game_agent"].jump_spaces(result)
+        self.dice_res1 = self.dice1.roll()
+        self.dice_res2 = self.dice2.roll(self.rolled_dice_callback)
 
     def on_pass(self, player, space):
         """SCENE EVENT: Called when a player ever jumps on a space, but not when they land on one."""
