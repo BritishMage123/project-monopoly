@@ -9,6 +9,7 @@ import numpy as np
 import time
 import os
 import random
+import glob
 
 class CharacterCreation(Scene):
     def __init__(self, game_manager):
@@ -43,8 +44,7 @@ class CharacterCreation(Scene):
         self.display_entities.append(self.new_ai_button)
 
         # Get tokens
-        token_path = "assets/tokens"
-        self.token_list = os.listdir(token_path)
+        self.token_list = [os.path.basename(f) for f in glob.glob("assets/tokens/*.png")]
         random.shuffle(self.token_list)
     
     def display_options(self):

@@ -34,6 +34,11 @@ class GameAgent(Entity, Corporation):
     def set_current_space(self, space):
         self.current_space = space
 
+        # Sound effect
+        sound = pygame.mixer.Sound("audio/sounds/piece_move.wav")
+        sound.set_volume(0.5)
+        pygame.mixer.Sound.play(sound)
+
     def jump_spaces(self, num=1):
         self.move_path = []
         next_space = self.current_space
@@ -57,10 +62,6 @@ class GameAgent(Entity, Corporation):
                 next_space = self.move_path.pop(0)
                 self.set_current_space(next_space)
                 self.last_move_time = now
-                # Sound effect
-                sound = pygame.mixer.Sound("audio/sounds/piece_move.wav")
-                sound.set_volume(0.5)
-                pygame.mixer.Sound.play(sound)
 
             # If finished moving, trigger the cooldown
             if not self.move_path:
