@@ -7,6 +7,7 @@ from ui.text_label import TextLabel
 from entities.dice import Dice
 import numpy as np
 import time
+import os
 
 class CharacterCreation(Scene):
     def __init__(self, game_manager):
@@ -72,7 +73,12 @@ class CharacterCreation(Scene):
             self.add_entity(display_entity)
             self.display_entities.append(display_entity)
 
-    def add_to_char_list(self, name, token="assets/tokens/cart.png"):
+    def add_to_char_list(self, name):
+        # decide token
+        token_path = "assets/tokens"
+        token_list = os.listdir(token_path)
+        token = "assets/tokens/" + token_list[len(self.character_list) % len(token_list)]
+
         self.character_list.append({
             "name": name,
             "token": token
