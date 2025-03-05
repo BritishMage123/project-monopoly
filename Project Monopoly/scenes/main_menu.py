@@ -16,9 +16,9 @@ class MainMenu(Scene):
         self.title_label = TextLabel(screen_width * 0.5, screen_height * 0.25,
                                      "Main Menu")
         self.start_button = Button(screen_width * 0.25, screen_height * 0.5,
-                                   "Start Game", self.start_game, text_color="WHITE")
+                                   "Start Game", self.start_game)
         self.quit_button = Button(screen_width * 0.75, screen_height * 0.5,
-                                  "Quit", self.quit_game, text_color="WHITE")
+                                  "Quit", self.quit_game)
 
         # Add entities to scene so they are handled automatically
         self.add_entity(self.title_label)

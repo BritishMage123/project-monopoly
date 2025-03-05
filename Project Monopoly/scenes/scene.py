@@ -24,6 +24,12 @@ class Scene:
         """Adds an entity to the scene."""
         self.entities.append(entity)
 
+    def remove_entity(self, entity):
+        try:
+            self.entities.remove(entity)
+        except:
+            pass
+
     def handle_events(self, events):
         for entity in self.entities:
             entity.handle_events(events)

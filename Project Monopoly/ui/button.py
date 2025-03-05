@@ -4,7 +4,7 @@ import json
 import colorsys
 
 class Button(UIElement):
-    def __init__(self, x, y, text, action, width=200, height=50, centered=True, text_color="BLACK", button_color="LIGHTRED"):
+    def __init__(self, x, y, text, action, width=200, height=50, centered=True, text_color="WHITE", button_color="LIGHTRED"):
         super().__init__(x, y, width, height, text, centered=centered, text_color=text_color)
         self.action = action
         with open("ui/colors.json", 'r') as file:

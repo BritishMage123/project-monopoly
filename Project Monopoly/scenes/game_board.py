@@ -8,7 +8,7 @@ import pygame
 import importlib
 
 class GameBoard(Scene):
-    def __init__(self, game_manager):
+    def __init__(self, game_manager, player_setup_list):
         super().__init__(game_manager, bg_color=(204,230,207))
 
         # Screen dimensions
@@ -39,18 +39,20 @@ class GameBoard(Scene):
         self.add_entity(self.dice1)
         self.add_entity(self.dice2)
 
-        # Player
-        # TODO: hard-coded for now
-        # this is where we set up Player and AI agents
-        self.player1 = GameAgent("Player 1", self.spaces.get_head_space(), "assets/cart.png")
-        self.add_entity(self.player1)
-        self.players = [
-            {
-                "game_agent": self.player1,
+        # Player setup
+        self.players = []
+        for p in player_setup_list:
+            new_player = GameAgent(p["name"], self.spaces.get_head_space(), p["token"])
+            self.players.append({
+                "game_agent": new_player,
                 "called_on_land": True,
                 "path_size": 0
-            }
-        ]
+            })
+            self.add_entity(new_player)
+
+        self.player_turn = 0
+
+        print(f"Loaded {len(self.players)} players.")
 
         super().on_load()
     
@@ -61,7 +63,7 @@ class GameBoard(Scene):
         if res1 == res2:
             print("DOUBLES!") # handle doubles
         result = res1 + res2
-        self.player1.jump_spaces(result)
+        self.players[self.player_turn]["game_agent"].jump_spaces(result)
 
     def on_pass(self, player, space):
         """SCENE EVENT: Called when a player ever jumps on a space, but not when they land on one."""
@@ -83,6 +85,7 @@ class GameBoard(Scene):
             print(f"No event found for space type: {space.space_type}")
 
         self.set_camera_quad(0)
+        self.player_turn = (self.player_turn + 1) % len(self.players)
 
     def handle_events(self, events):
         super().handle_events(events)
@@ -91,7 +94,7 @@ class GameBoard(Scene):
                 # toggle player camera focus
                 if event.key == pygame.K_SPACE:
                     if self.current_scale_offset_idx == 0:
-                        self.set_camera_quad(self.player1.current_space.quadrant_idx)
+                        self.set_camera_quad(self.players[self.player_turn]["game_agent"].current_space.quadrant_idx)
                     else:
                         self.set_camera_quad(0)
 
