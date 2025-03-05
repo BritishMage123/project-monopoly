@@ -8,6 +8,7 @@ from entities.dice import Dice
 import numpy as np
 import time
 import os
+import random
 
 class CharacterCreation(Scene):
     def __init__(self, game_manager):
@@ -40,6 +41,11 @@ class CharacterCreation(Scene):
         self.add_entity(self.new_ai_button)
         self.display_entities.append(self.new_character_button)
         self.display_entities.append(self.new_ai_button)
+
+        # Get tokens
+        token_path = "assets/tokens"
+        self.token_list = os.listdir(token_path)
+        random.shuffle(self.token_list)
     
     def display_options(self):
         self.add_entity(self.new_character_button)
@@ -75,9 +81,7 @@ class CharacterCreation(Scene):
 
     def add_to_char_list(self, name):
         # decide token
-        token_path = "assets/tokens"
-        token_list = os.listdir(token_path)
-        token = "assets/tokens/" + token_list[len(self.character_list) % len(token_list)]
+        token = "assets/tokens/" + self.token_list[len(self.character_list) % len(self.token_list)]
 
         self.character_list.append({
             "name": name,
@@ -95,8 +99,11 @@ class CharacterCreation(Scene):
         self.display_entities.append(player_name_input)
 
     def new_ai_character(self):
-        # TODO
-        self.add_to_char_list("AI Sam")
+        ai_prefixes = ["Sir", "Mr", "Dr", "Cap", "Prof", "Agent", "Lord", "Lady", "Col",
+                       "Maj", "Baron", "Dame", "Count","Countess", "Duke", "Duchess", "Marshal",
+                       "Admiral", "Commander", "Chief", "Mrs"]
+        token_name = self.token_list[len(self.character_list) % len(self.token_list)].replace(".png", "").capitalize()
+        self.add_to_char_list(f"{random.choice(ai_prefixes)} {token_name}")
 
     def clear_display(self):
         for e in self.display_entities:
