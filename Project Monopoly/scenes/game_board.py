@@ -64,7 +64,7 @@ class GameBoard(Scene):
     def roll_dice(self):
         """BUTTON ACTION: roll both dice"""
         self.dice_res1 = self.dice1.roll()
-        self.dice_res2 = self.dice2.roll(self.rolled_dice_callback)
+        self.dice_res2 = self.dice2.roll(self.rolled_dice_callback, sound=True)
 
     def on_pass(self, player, space):
         """SCENE EVENT: Called when a player ever jumps on a space, but not when they land on one."""

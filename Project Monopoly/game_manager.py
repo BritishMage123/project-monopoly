@@ -10,7 +10,7 @@ class GameManager:
         self.scene = MainMenu(self)  # Start with MainMenu
 
         # Start music
-        pygame.mixer.music.load('audio/music/jazz1.mp3')
+        pygame.mixer.music.load('assets/audio/music/jazz1.mp3')
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 

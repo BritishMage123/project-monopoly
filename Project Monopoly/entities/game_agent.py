@@ -25,6 +25,10 @@ class GameAgent(Entity, Corporation):
         self.cooldown_active = False
         self.stop_time = 0  # track when final move ended
 
+        # Sound effects
+        self.sound = pygame.mixer.Sound("assets/audio/sounds/piece_move.wav")
+        self.sound.set_volume(0.5)
+
     def get_current_space(self):
         # If "moving" is True or cooldown is still active, return final destination
         if self.moving or self.cooldown_active:
@@ -35,9 +39,7 @@ class GameAgent(Entity, Corporation):
         self.current_space = space
 
         # Sound effect
-        sound = pygame.mixer.Sound("audio/sounds/piece_move.wav")
-        sound.set_volume(0.5)
-        pygame.mixer.Sound.play(sound)
+        pygame.mixer.Sound.play(self.sound)
 
     def jump_spaces(self, num=1):
         self.move_path = []

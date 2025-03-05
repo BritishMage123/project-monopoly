@@ -26,8 +26,14 @@ class Dice(AnimatedEntity):
         self.cooldown_active = False
         self.stop_time = 0
 
-    def roll(self, after_roll_callback=None):
+        # Sound effect
+        self.sound = pygame.mixer.Sound("assets/audio/sounds/dice_roll.wav")
+        self.sound.set_volume(0.5)
+
+    def roll(self, after_roll_callback=None, sound=False):
         """Starts the rolling animation for 1 second and determines final dice value."""
+        if sound:
+            pygame.mixer.Sound.play(self.sound, loops=-1)
         self.after_roll_callback = after_roll_callback
         if not self.animating:  # Prevent double clicks
             self.final_value = random.randint(1, 6)  # Get a dice value (1-6)
@@ -50,6 +56,7 @@ class Dice(AnimatedEntity):
             # Start cooldown timer: do NOT call callback yet
             self.cooldown_active = True
             self.stop_time = time.time()
+            pygame.mixer.Sound.stop(self.sound)
 
         # Check if we're in cooldown mode
         if self.cooldown_active:
