@@ -2,8 +2,8 @@ import pygame
 from ui.ui_element import UIElement
 
 class TextBox(UIElement):
-    def __init__(self, x, y, width, height, placeholder="Enter text...", font_size=32, centered=True):
-        super().__init__(x, y, width, height, "", font_size, centered=centered)
+    def __init__(self, x, y, width, height, placeholder="Enter text...", font_size=32, centered=True, text_color="black"):
+        super().__init__(x, y, width, height, "", font_size, centered=centered, text_color=text_color)
         self.placeholder = placeholder
         self.active = False
         self.max_length = 20

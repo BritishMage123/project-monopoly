@@ -5,6 +5,7 @@ from entities.game_agent import GameAgent
 import board_setup
 import time
 import pygame
+import importlib
 
 class GameBoard(Scene):
     def __init__(self, game_manager):
@@ -70,37 +71,24 @@ class GameBoard(Scene):
         """SCENE EVENT: Called when a player lands on a space (final destination)."""
 
         # Space type events
-        match space.space_type:
-            case "PROPERTY":
-                from scenes.events.property_event import PropertyEvent
-                PropertyEvent(self, player, space).on_land()
-            case "CHANCE":
-                from scenes.events.chance_event import ChanceEvent
-                ChanceEvent(self, player, space).on_land()
-            case "JAIL":
-                from scenes.events.jail_event import JailEvent
-                JailEvent(self, player, space).on_land()
-            case "GO":
-                from scenes.events.go_event import GoEvent
-                GoEvent(self, player, space).on_land()
-            case "VISITING":
-                from scenes.events.visiting_event import VisitingEvent
-                VisitingEvent(self, player, space).on_land()
-            case "COMMUNITY CHEST":
-                from scenes.events.community_chest_event import CommunityChestEvent
-                CommunityChestEvent(self, player, space).on_land()
-            case "TAXES":
-                from scenes.events.taxes_event import TaxesEvent
-                TaxesEvent(self, player, space).on_land()
+        # goes through /scenes/events/ and calls the respective *_event.py module
+        module_name = space.space_type.lower().replace(" ", "_") + "_event"
+        full_module_path = f"scenes.events.{module_name}"
+        try:
+            mod = importlib.import_module(full_module_path)
+            class_name = "".join(word.capitalize() for word in space.space_type.split()) + "Event"
+            event_class = getattr(mod, class_name)
+            event_class(self, player, space).on_land()
+        except (ModuleNotFoundError, AttributeError):
+            print(f"No event found for space type: {space.space_type}")
 
-        # self.set_camera_quad(space.quadrant_idx)
-        # time.sleep(0.5)
         self.set_camera_quad(0)
 
     def handle_events(self, events):
         super().handle_events(events)
         for event in events:
             if event.type == pygame.KEYDOWN:
+                # toggle player camera focus
                 if event.key == pygame.K_SPACE:
                     if self.current_scale_offset_idx == 0:
                         self.set_camera_quad(self.player1.current_space.quadrant_idx)
