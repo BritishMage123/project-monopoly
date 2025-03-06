@@ -8,6 +8,7 @@ class GoEvent(SceneEvent):
         """SCENE EVENT: Called when a player lands on this space"""
         # handle go case
         print(f"{self.player.name} landed on a GO space.")
+        self.scene.next_turn()
 
     def on_pass(self):
         """SCENE EVENT: Called when a player passes this space"""

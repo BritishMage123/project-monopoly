@@ -9,6 +9,7 @@ class JailEvent(SceneEvent):
         """SCENE EVENT: Called when a player lands on this space"""
         # handle jail case
         print(f"{self.player.name} landed on a JAIL space.")
+        self.scene.next_turn()
 
     def on_pass(self):
         """SCENE EVENT: Called when a player passes this space"""

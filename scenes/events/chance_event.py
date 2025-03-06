@@ -8,6 +8,7 @@ class ChanceEvent(SceneEvent):
         """SCENE EVENT: Called when a player lands on this space"""
         # handle chance case
         print(f"{self.player.name} landed on a CHANCE space.")
+        self.scene.next_turn()
 
     def on_pass(self):
         """SCENE EVENT: Called when a player passes this space"""

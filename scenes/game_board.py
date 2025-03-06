@@ -4,7 +4,6 @@ from ui.text_label import TextLabel
 from entities.dice import Dice
 from entities.game_agent import GameAgent
 import board_setup
-import time
 import pygame
 import importlib
 
@@ -79,12 +78,26 @@ class GameBoard(Scene):
 
     def on_pass(self, player, space):
         """SCENE EVENT: Called when a player ever jumps on a space, but not when they land on one."""
+
+        # Space type events
+        # goes through /scenes/events/ and calls the respective *_event.py module
+        module_name = space.space_type.lower().replace(" ", "_") + "_event"
+        full_module_path = f"scenes.events.{module_name}"
+        try:
+            mod = importlib.import_module(full_module_path)
+            class_name = "".join(word.capitalize() for word in space.space_type.split()) + "Event"
+            event_class = getattr(mod, class_name)
+            event_class(self, player, space).on_pass()
+        except (ModuleNotFoundError, AttributeError):
+            print(f"No event found for space type: {space.space_type}")
+
         self.set_camera_quad(space.quadrant_idx)
 
     def on_land(self, player, space):
         """SCENE EVENT: Called when a player lands on a space (final destination)."""
 
-        self.show_player_turn_ui()
+        self.set_camera_quad(0)
+        self.hide_player_turn_ui()
 
         # Space type events
         # goes through /scenes/events/ and calls the respective *_event.py module
@@ -97,15 +110,17 @@ class GameBoard(Scene):
             event_class(self, player, space).on_land()
         except (ModuleNotFoundError, AttributeError):
             print(f"No event found for space type: {space.space_type}")
-
-        self.set_camera_quad(0)
+    
+    def next_turn(self):
         self.player_turn = (self.player_turn + 1) % len(self.players)
+        self.show_player_turn_ui()
 
     def hide_player_turn_ui(self):
         for e in self.player_turn_ui:
             self.remove_entity(e)
 
     def show_player_turn_ui(self):
+        self.turn_indicator.text = f"{self.players[self.player_turn]['game_agent'].name}'s turn"
         for e in self.player_turn_ui:
             self.add_entity(e)
 
@@ -123,8 +138,6 @@ class GameBoard(Scene):
     def update(self):
         super().update()
 
-        self.turn_indicator.text = f"{self.players[self.player_turn]['game_agent'].name}'s turn"
-
         # Handles the space landing and passing event
         for p in self.players:
             if p["game_agent"].moving:
@@ -135,3 +148,6 @@ class GameBoard(Scene):
             if p["game_agent"].moving and len(p["game_agent"].move_path) != p["path_size"]:
                 self.on_pass(p["game_agent"], p["game_agent"].current_space)
                 p["path_size"] = len(p["game_agent"].move_path)
+
+    def render(self, screen):
+        super().render(screen)

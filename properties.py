@@ -5,7 +5,7 @@ class Property:
         self.__value = value
         self.__base_tax = base_tax
         self.__tax_multiplier = 1
-        self.__owner = owner
+        self.owner = owner
     
     def set_name(self, name):
         self.__name = name

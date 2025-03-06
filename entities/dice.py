@@ -28,7 +28,7 @@ class Dice(AnimatedEntity):
 
         # Sound effect
         self.sound = pygame.mixer.Sound("assets/audio/sounds/dice_roll.wav")
-        self.sound.set_volume(0.5)
+        self.sound.set_volume(0.25)
 
     def roll(self, after_roll_callback=None, sound=False):
         """Starts the rolling animation for 1 second and determines final dice value."""
