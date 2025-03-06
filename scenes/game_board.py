@@ -1,5 +1,6 @@
 from scenes.scene import Scene
 from ui.button import Button
+from ui.text_label import TextLabel
 from entities.dice import Dice
 from entities.game_agent import GameAgent
 import board_setup
@@ -30,16 +31,24 @@ class GameBoard(Scene):
                 break
 
         # Roll dice button
-        self.dice_button = Button(self.screen_width * 0.5, self.screen_height * 0.5, "Roll!", self.roll_dice)
-        self.add_entity(self.dice_button)
+        self.dice_button = Button(self.screen_width * 0.5, self.screen_height * 0.74, "Roll!", self.roll_dice)
 
         # Actual dice
-        self.dice1 = Dice(self.screen_width * 0.4, self.screen_height * 0.6)
-        self.dice2 = Dice(self.screen_width * 0.6, self.screen_height * 0.6)
-        self.add_entity(self.dice1)
-        self.add_entity(self.dice2)
+        self.dice1 = Dice(self.screen_width * 0.45, self.screen_height * 0.65)
+        self.dice2 = Dice(self.screen_width * 0.55, self.screen_height * 0.65)
         self.dice_res1 = None
         self.dice_res2 = None
+
+        # Turn indicator
+        self.turn_indicator = TextLabel(self.screen_width * 0.5, self.screen_height * 0.8, "")
+
+        # Player turn UI
+        # Include dice and options to roll dice
+        self.player_turn_ui = []
+        self.player_turn_ui.append(self.dice1)
+        self.player_turn_ui.append(self.dice2)
+        self.player_turn_ui.append(self.dice_button)
+        self.player_turn_ui.append(self.turn_indicator)
 
         # Player setup
         self.players = []
@@ -53,6 +62,7 @@ class GameBoard(Scene):
             self.add_entity(new_player)
         self.player_turn = 0
 
+        self.show_player_turn_ui()
         print(f"Loaded {len(self.players)} players.")
 
         super().on_load()
@@ -60,6 +70,7 @@ class GameBoard(Scene):
     def rolled_dice_callback(self):
         result = self.dice_res1 + self.dice_res2
         self.players[self.player_turn]["game_agent"].jump_spaces(result)
+        self.hide_player_turn_ui()
     
     def roll_dice(self):
         """BUTTON ACTION: roll both dice"""
@@ -72,6 +83,8 @@ class GameBoard(Scene):
 
     def on_land(self, player, space):
         """SCENE EVENT: Called when a player lands on a space (final destination)."""
+
+        self.show_player_turn_ui()
 
         # Space type events
         # goes through /scenes/events/ and calls the respective *_event.py module
@@ -88,6 +101,14 @@ class GameBoard(Scene):
         self.set_camera_quad(0)
         self.player_turn = (self.player_turn + 1) % len(self.players)
 
+    def hide_player_turn_ui(self):
+        for e in self.player_turn_ui:
+            self.remove_entity(e)
+
+    def show_player_turn_ui(self):
+        for e in self.player_turn_ui:
+            self.add_entity(e)
+
     def handle_events(self, events):
         super().handle_events(events)
         for event in events:
@@ -101,6 +122,8 @@ class GameBoard(Scene):
 
     def update(self):
         super().update()
+
+        self.turn_indicator.text = f"{self.players[self.player_turn]['game_agent'].name}'s turn"
 
         # Handles the space landing and passing event
         for p in self.players:
