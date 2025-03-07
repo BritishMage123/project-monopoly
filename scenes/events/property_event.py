@@ -20,21 +20,22 @@ class PropertyEvent(SceneEvent):
         self.property = self.space.property
 
         self.property_name = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.3, space.text)
-        self.property_value = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.35,
+        self.property_value = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.37,
                                         f"£{self.property.get_value()}")
+        self.property_owner = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.34, "")
         self.query = TextLabel(scene.screen_width * 0.5, scene.screen_width * 0.4,
                                f"{player.name}, what do you want to do?")
         self.buy_button = Button(scene.screen_width * 0.38, scene.screen_height * 0.5,
                                  "BUY", self.buy_property, width=100, button_color="GREEN")
         self.auction_button = Button(scene.screen_width * 0.6, scene.screen_height * 0.5,
                                  "SEND TO AUCTION", self.auction_property, width=230)
-        if self.property.owner:
-            self.tax_query = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.4,
-                                f"{self.property.owner.name} owns this property.")
-        else:
-            self.tax_query = None
+        self.tax_query = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.4, "")
         self.tax_button = Button(scene.screen_width * 0.5, scene.screen_height * 0.5,
                                  "PAY TAX", self.pay_tax)
+        self.continue_button = Button(scene.screen_width * 0.5, scene.screen_height * 0.5,
+                                 "CONTINUE", self.do_nothing)
+        
+        # Auctioning
 
     def on_land(self):
         """SCENE EVENT: Called when a player lands on this space"""
@@ -46,12 +47,21 @@ class PropertyEvent(SceneEvent):
             self.scene.add_entity(self.auction_button)
             self.scene.add_entity(self.property_value)
         else:
+            self.property_owner.text = f"Owned by {self.property.owner.name}."
+            self.tax_query.text = f"{self.property.owner.name} owns this property."
             self.scene.add_entity(self.tax_query)
-            self.scene.add_entity(self.tax_button)
+            if self.property.owner == self.player:
+                self.scene.add_entity(self.continue_button)
+            else:
+                self.scene.add_entity(self.tax_button)
 
     def on_pass(self):
         """SCENE EVENT: Called when a player passes this space"""
         pass
+
+    def do_nothing(self):
+        self.clear_ui()
+        self.scene.next_turn()
 
     def pay_tax(self):
         self.clear_ui()
@@ -83,3 +93,5 @@ class PropertyEvent(SceneEvent):
         self.scene.remove_entity(self.tax_query)
         self.scene.remove_entity(self.tax_button)
         self.scene.remove_entity(self.auction_button)
+        self.scene.remove_entity(self.continue_button)
+        self.scene.remove_entity(self.property_owner)

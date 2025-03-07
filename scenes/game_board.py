@@ -6,6 +6,8 @@ from entities.game_agent import GameAgent
 import board_setup
 import pygame
 import importlib
+import glob
+import os
 
 class GameBoard(Scene):
     def __init__(self, game_manager, player_setup_list):
@@ -61,6 +63,24 @@ class GameBoard(Scene):
             self.add_entity(new_player)
         self.player_turn = 0
 
+        # Load events
+        self.space_event_classes = {}
+        event_path = "scenes/events"
+        event_files = glob.glob(f"{event_path}/*_event.py")
+        for filepath in event_files:
+            filename = os.path.basename(filepath)
+            space_type = filename.replace("_event.py", "").upper().replace("_", " ")
+            module_name = filename[:-3]
+            full_module_path = f"{event_path.replace('/', '.')}.{module_name}"
+            class_name = "".join(word.capitalize() for word in space_type.split()) + "Event"
+            try:
+                mod = importlib.import_module(full_module_path)
+                event_class = getattr(mod, class_name)
+                self.space_event_classes[space_type] = event_class
+            except (ModuleNotFoundError, AttributeError):
+                print(f"No event found for space type: {space_type}")
+                self.space_event_classes[space_type] = None
+
         self.show_player_turn_ui()
         print(f"Loaded {len(self.players)} players.")
 
@@ -76,21 +96,17 @@ class GameBoard(Scene):
         self.dice_res1 = self.dice1.roll()
         self.dice_res2 = self.dice2.roll(self.rolled_dice_callback, sound=True)
 
+    def call_space_event(self, player, space, event_func):
+        event_class = self.space_event_classes.get(space.space_type)
+        if event_class:
+            event_instance = event_class(self, player, space)
+            getattr(event_instance, event_func)()
+        else:
+            print(f"No event class cached for space type: {space.space_type}")
+
     def on_pass(self, player, space):
         """SCENE EVENT: Called when a player ever jumps on a space, but not when they land on one."""
-
-        # Space type events
-        # goes through /scenes/events/ and calls the respective *_event.py module
-        module_name = space.space_type.lower().replace(" ", "_") + "_event"
-        full_module_path = f"scenes.events.{module_name}"
-        try:
-            mod = importlib.import_module(full_module_path)
-            class_name = "".join(word.capitalize() for word in space.space_type.split()) + "Event"
-            event_class = getattr(mod, class_name)
-            event_class(self, player, space).on_pass()
-        except (ModuleNotFoundError, AttributeError):
-            print(f"No event found for space type: {space.space_type}")
-
+        self.call_space_event(player, space, "on_pass")
         self.set_camera_quad(space.quadrant_idx)
 
     def on_land(self, player, space):
@@ -99,17 +115,7 @@ class GameBoard(Scene):
         self.set_camera_quad(0)
         self.hide_player_turn_ui()
 
-        # Space type events
-        # goes through /scenes/events/ and calls the respective *_event.py module
-        module_name = space.space_type.lower().replace(" ", "_") + "_event"
-        full_module_path = f"scenes.events.{module_name}"
-        try:
-            mod = importlib.import_module(full_module_path)
-            class_name = "".join(word.capitalize() for word in space.space_type.split()) + "Event"
-            event_class = getattr(mod, class_name)
-            event_class(self, player, space).on_land()
-        except (ModuleNotFoundError, AttributeError):
-            print(f"No event found for space type: {space.space_type}")
+        self.call_space_event(player, space, "on_land")
     
     def next_turn(self):
         self.player_turn = (self.player_turn + 1) % len(self.players)

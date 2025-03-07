@@ -62,7 +62,6 @@ class CharacterCreation(Scene):
         self.game_manager.change_scene(GameBoard(self.game_manager, self.character_list))
 
     def display_character_list(self):
-        print(len(self.display_entities))
         self.clear_display()
         self.display_options()
 

@@ -3,6 +3,8 @@ import json
 from entities.entity import Entity
 from properties import Property
 
+# TODO: On hover, reveal property info
+
 class Space(Entity):
     def __init__(self, x, y, size, space_type, pass_reward, text, icon, color):
         super().__init__(x, y, size, size, centered=False)
