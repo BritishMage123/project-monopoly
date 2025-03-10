@@ -136,7 +136,8 @@ class GameBoard(Scene):
     def show_player_turn_ui(self):
         self.turn_indicator.text = f"{self.players[self.player_turn]['game_agent'].name}'s turn"
         for e in self.player_turn_ui:
-            self.add_entity(e)
+            if not e in self.entities:
+                self.add_entity(e)
 
     def handle_events(self, events):
         super().handle_events(events)
