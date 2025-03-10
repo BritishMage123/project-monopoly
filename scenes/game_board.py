@@ -94,7 +94,7 @@ class GameBoard(Scene):
 
     def rolled_dice_callback(self):
         result = self.dice_res1 + self.dice_res2
-        if self.debug_move_count in self.player_turn_ui:
+        if self.debug_move_count in self.player_turn_ui and self.debug_move_count.text != "":
             result = int(self.debug_move_count.text)
         self.players[self.player_turn]["game_agent"].jump_spaces(result)
         self.hide_player_turn_ui()
