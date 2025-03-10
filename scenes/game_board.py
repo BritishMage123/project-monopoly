@@ -147,7 +147,9 @@ class GameBoard(Scene):
                 if event.key == pygame.K_SPACE:
                     if self.current_scale_offset_idx == 0:
                         self.set_camera_quad(self.players[self.player_turn]["game_agent"].current_space.quadrant_idx)
+                        self.hide_player_turn_ui()
                     else:
+                        self.show_player_turn_ui()
                         self.set_camera_quad(0)
 
     def update(self):
