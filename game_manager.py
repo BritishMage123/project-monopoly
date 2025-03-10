@@ -1,5 +1,6 @@
 import pygame
 from scenes.main_menu import MainMenu
+import sys
 
 class GameManager:
     def __init__(self):
@@ -8,6 +9,7 @@ class GameManager:
         self.clock = pygame.time.Clock()
         self.running = True
         self.scene = MainMenu(self)  # Start with MainMenu
+        self.debug_mode = True if len(sys.argv) >= 2 and sys.argv[1] == 'd' else False # enable/disable debug mode
 
         # Start music
         pygame.mixer.music.load('assets/audio/music/jazz1.mp3')

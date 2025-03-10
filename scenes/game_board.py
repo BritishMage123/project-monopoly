@@ -1,6 +1,7 @@
 from scenes.scene import Scene
 from ui.button import Button
 from ui.text_label import TextLabel
+from ui.text_box import TextBox
 from entities.dice import Dice
 from entities.game_agent import GameAgent
 import board_setup
@@ -43,6 +44,9 @@ class GameBoard(Scene):
         # Turn indicator
         self.turn_indicator = TextLabel(self.screen_width * 0.5, self.screen_height * 0.8, "")
 
+        # DEBUG: manual player move count
+        self.debug_move_count = TextBox(self.screen_width * 0.5,  self.screen_height * 0.55, width=50)
+
         # Player turn UI
         # Include dice and options to roll dice
         self.player_turn_ui = []
@@ -50,6 +54,8 @@ class GameBoard(Scene):
         self.player_turn_ui.append(self.dice2)
         self.player_turn_ui.append(self.dice_button)
         self.player_turn_ui.append(self.turn_indicator)
+        if self.game_manager.debug_mode:
+            self.player_turn_ui.append(self.debug_move_count)
 
         # Player setup
         self.players = []
@@ -88,6 +94,8 @@ class GameBoard(Scene):
 
     def rolled_dice_callback(self):
         result = self.dice_res1 + self.dice_res2
+        if self.debug_move_count in self.player_turn_ui:
+            result = int(self.debug_move_count.text)
         self.players[self.player_turn]["game_agent"].jump_spaces(result)
         self.hide_player_turn_ui()
     
