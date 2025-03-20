@@ -42,7 +42,7 @@ class AnimatedEntity(Entity):
         self.last_update_time = time.time()
 
     def start_animation(self, loop=False, duration=None):
-        """Start the animation with optional looping and duration."""
+        # Start the animation with optional looping and duration."""
         self.animating = True
         self.loop = loop
         self.animation_duration = duration
@@ -51,12 +51,12 @@ class AnimatedEntity(Entity):
         self.last_update_time = self.start_time
 
     def stop_animation(self):
-        """Stop animation and reset to first frame."""
+        # Stop animation and reset to first frame.
         self.animating = False
         self.current_frame = 0
 
     def update(self):
-        """Handles animation updates based on time."""
+        # Handles animation updates based on time.
         if self.animating:
             now = time.time()
 
@@ -83,5 +83,5 @@ class AnimatedEntity(Entity):
                             self.stop_animation()  # Stop at last frame
 
     def render(self, screen):
-        """Renders the current frame."""
+        # Renders the current frame.
         screen.blit(self.images[self.current_frame], self.rect)

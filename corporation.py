@@ -1,4 +1,12 @@
+# this a parrent class of entity handling the change in bank balance
 class Corporation:
     def __init__(self, name, bank_balance=1000):
         self.name = name
         self.bank_balance = bank_balance
+    def get_name(self):
+        #returns name
+        return self.name
+
+    def get_balance(self):
+        #Returnce balance
+        return self.bank_balance

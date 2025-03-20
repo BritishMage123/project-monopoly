@@ -3,8 +3,12 @@ from ui.ui_element import UIElement
 import json
 import colorsys
 
+
+#
 class Button(UIElement):
-    def __init__(self, x, y, text, action, width=200, height=50, centered=True, text_color="WHITE", button_color="LIGHTRED"):
+    # creates a button to be used by the players to engage with the game
+    def __init__(self, x, y, text, action, width=200, height=50, centered=True, text_color="WHITE",
+                 button_color="LIGHTRED"):
         super().__init__(x, y, width, height, text, centered=centered, text_color=text_color)
         self.action = action
         with open("ui/colors.json", 'r') as file:
@@ -22,11 +26,11 @@ class Button(UIElement):
             int(hover_g * 255),
             int(hover_b * 255)
         )
-        
+
         self.current_color = self.button_color
 
     def handle_events(self, events):
-        """Detects clicks and triggers action."""
+        # Detects clicks and triggers action.
         mouse_pos = pygame.mouse.get_pos()
         mouse_over = self.rect.collidepoint(mouse_pos)
 
@@ -38,5 +42,6 @@ class Button(UIElement):
         self.current_color = self.hover_color if mouse_over else self.button_color
 
     def render(self, screen):
+        # draws the button
         pygame.draw.rect(screen, self.current_color, self.rect)
         self.render_text(screen)

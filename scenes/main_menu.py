@@ -26,9 +26,9 @@ class MainMenu(Scene):
         self.add_entity(self.quit_button)
 
     def start_game(self):
-        """BUTTON ACTION: Switch to the CharacterCreation scene when clicking start."""
+        # BUTTON ACTION: Switch to the CharacterCreation scene when clicking start.
         self.game_manager.change_scene(CharacterCreation(self.game_manager))
 
     def quit_game(self):
-        """BUTTON ACTION: Quit the game."""
+        # BUTTON ACTION: Quit the game.
         self.game_manager.running = False

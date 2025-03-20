@@ -13,6 +13,7 @@ Any player, including the one who declined the option to buy it at the printed p
 Bidding may start at any price.
 """
 
+
 class PropertyEvent(SceneEvent):
     def __init__(self, scene, player, space):
         super().__init__(scene, player, space)
@@ -28,17 +29,17 @@ class PropertyEvent(SceneEvent):
         self.buy_button = Button(scene.screen_width * 0.38, scene.screen_height * 0.5,
                                  "BUY", self.buy_property, width=100, button_color="GREEN")
         self.auction_button = Button(scene.screen_width * 0.6, scene.screen_height * 0.5,
-                                 "SEND TO AUCTION", self.auction_property, width=230)
+                                     "SEND TO AUCTION", self.auction_property, width=230)
         self.tax_query = TextLabel(scene.screen_width * 0.5, scene.screen_height * 0.4, "")
         self.tax_button = Button(scene.screen_width * 0.5, scene.screen_height * 0.5,
                                  "PAY TAX", self.pay_tax)
         self.continue_button = Button(scene.screen_width * 0.5, scene.screen_height * 0.5,
-                                 "CONTINUE", self.do_nothing)
-        
+                                      "CONTINUE", self.do_nothing)
+
         # Auctioning
 
     def on_land(self):
-        """SCENE EVENT: Called when a player lands on this space"""
+        # SCENE EVENT: Called when a player lands on this space
         self.scene.add_entity(self.property_name)
 
         if not self.property.owner:
@@ -56,7 +57,7 @@ class PropertyEvent(SceneEvent):
                 self.scene.add_entity(self.tax_button)
 
     def on_pass(self):
-        """SCENE EVENT: Called when a player passes this space"""
+        # SCENE EVENT: Called when a player passes this space
         pass
 
     def do_nothing(self):
@@ -67,13 +68,13 @@ class PropertyEvent(SceneEvent):
         self.clear_ui()
 
         self.scene.next_turn()
-    
+
     def auction_property(self):
         # Remove the UI
         self.clear_ui()
 
         # Trigger next turn
-        self.scene.next_turn() # ALWAYS NEED TO DO THIS ONCE DONE
+        self.scene.next_turn()  # ALWAYS NEED TO DO THIS ONCE DONE
 
     def buy_property(self):
         # Set ownership
@@ -83,7 +84,7 @@ class PropertyEvent(SceneEvent):
         self.clear_ui()
 
         # Trigger next turn
-        self.scene.next_turn() # ALWAYS NEED TO DO THIS ONCE DONE
+        self.scene.next_turn()  # ALWAYS NEED TO DO THIS ONCE DONE
 
     def clear_ui(self):
         self.scene.remove_entity(self.property_name)

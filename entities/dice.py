@@ -31,7 +31,7 @@ class Dice(AnimatedEntity):
         self.sound.set_volume(0.25)
 
     def roll(self, after_roll_callback=None, sound=False):
-        """Starts the rolling animation for 1 second and determines final dice value."""
+        # Starts the rolling animation for 1 second and determines final dice value.
         if sound:
             pygame.mixer.Sound.play(self.sound, loops=-1)
         self.after_roll_callback = after_roll_callback
@@ -41,7 +41,7 @@ class Dice(AnimatedEntity):
         return self.final_value
 
     def update(self):
-        """After animation duration, display the final dice face and wait cooldown before callback."""
+        # After animation duration, display the final dice face and wait cooldown before callback.
         super().update()  # Handle frame updates (random shuffle, time check, etc.)
 
         # If just started animating, reset 'called_end_roll'

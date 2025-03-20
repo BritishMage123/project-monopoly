@@ -3,6 +3,7 @@ import json
 from entities.entity import Entity
 from properties import Property
 
+
 # TODO: On hover, reveal property info
 
 class Space(Entity):
@@ -32,7 +33,7 @@ class Space(Entity):
 
     def get_next_space(self):
         return self.next_space
-    
+
     def render(self, screen):
         # Get space color
         with open("ui/colors.json", 'r') as file:
@@ -66,7 +67,7 @@ class Space(Entity):
                 top_rect,
                 1  # Outline thickness
             )
-            
+
         # Write the center of self.rect
         font = pygame.font.Font(None, 10 * self.camera_scale)
         text_surface = font.render(self.text, True, (0, 0, 0))
@@ -77,10 +78,12 @@ class Space(Entity):
         if self.space_type == "PROPERTY":
             text_surface = font.render(f"£{self.property.get_value()}", True, (0, 0, 0))
             text_rect = text_surface.get_rect(center=self.rect.center)
-            scale_pos = 0.7     # set this to whatever scalar 0-1
+            scale_pos = 0.7  # set this to whatever scalar 0-1
             screen.blit(text_surface, (text_rect.topleft[0],
-                                       text_rect.topleft[1] + (self.rect.height // 2) * scale_pos, # ensures not written outside space
+                                       text_rect.topleft[1] + (self.rect.height // 2) * scale_pos,
+                                       # ensures not written outside space
                                        text_rect.width, text_rect.height))
+
 
 class LinkedSpaceList:
     def __init__(self):

@@ -11,9 +11,10 @@ import os
 import random
 import glob
 
+
 class CharacterCreation(Scene):
     def __init__(self, game_manager):
-        super().__init__(game_manager, bg_color=(204,230,207)) # always need to do this
+        super().__init__(game_manager, bg_color=(204, 230, 207))  # always need to do this
 
         # minimum number of players needed to start the game
         self.min_players = 2
@@ -26,9 +27,9 @@ class CharacterCreation(Scene):
 
         # UI Elements
         self.title_label = TextLabel(self.screen_width * 0.5, self.screen_height * 0.25,
-                                    "Character Creator")
+                                     "Character Creator")
         self.new_character_button = Button(self.screen_width * 0.33, self.screen_height * 0.7,
-                                    "New Character", self.new_character, button_color="LIGHTRED")
+                                           "New Character", self.new_character, button_color="LIGHTRED")
         self.new_ai_button = Button(self.screen_width * 0.66, self.screen_height * 0.7,
                                     "New AI Character", self.new_ai_character, button_color="WHITE", text_color="BLACK")
         self.play_button = Button(self.screen_width * 0.5, self.screen_height * 0.85,
@@ -46,8 +47,9 @@ class CharacterCreation(Scene):
         # Get tokens
         self.token_list = [os.path.basename(f) for f in glob.glob("assets/tokens/*.png")]
         random.shuffle(self.token_list)
-    
+
     def display_options(self):
+        # displays the buttons for creating characters
         self.add_entity(self.new_character_button)
         self.add_entity(self.new_ai_button)
         self.display_entities.append(self.new_character_button)
@@ -57,15 +59,18 @@ class CharacterCreation(Scene):
         if len(self.character_list) >= self.min_players:
             self.add_entity(self.play_button)
             self.display_entities.append(self.play_button)
-    
+
     def play_game(self):
+        # starts the instance of the monopoly game
         self.game_manager.change_scene(GameBoard(self.game_manager, self.character_list))
 
     def display_character_list(self):
+        # displays the list of players in the game
         self.clear_display()
         self.display_options()
 
         def gen_spacing_scalars(n):
+            # automatically spaces out the names if there are is more than 1 name
             if n <= 0:
                 return []
             return [(i + 1) / (n + 1) for i in range(n)]
@@ -87,7 +92,7 @@ class CharacterCreation(Scene):
             "token": token
         })
         self.display_character_list()
-    
+
     def new_character(self):
         self.clear_display()
 
@@ -98,13 +103,15 @@ class CharacterCreation(Scene):
         self.display_entities.append(player_name_input)
 
     def new_ai_character(self):
+        # game will decide from a list of names in AI prefixes and put that in front of the characters name
         ai_prefixes = ["Sir", "Mr", "Dr", "Cap", "Prof", "Agent", "Lord", "Lady", "Col",
-                       "Maj", "Baron", "Dame", "Count","Countess", "Duke", "Duchess", "Marshal",
+                       "Maj", "Baron", "Dame", "Count", "Countess", "Duke", "Duchess", "Marshal",
                        "Admiral", "Commander", "Chief", "Mrs"]
         token_name = self.token_list[len(self.character_list) % len(self.token_list)].replace(".png", "").capitalize()
         self.add_to_char_list(f"{random.choice(ai_prefixes)} {token_name}")
 
     def clear_display(self):
+        # clears out the names displayed
         for e in self.display_entities:
             self.remove_entity(e)
         self.display_entities = []

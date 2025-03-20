@@ -1,9 +1,12 @@
 import pygame
 
 class Entity:
+    # parent class for other classes that involve displaying images like players
     def __init__(self, x, y, width, height, centered=True, override_offsets=False):
+        # sets coordinates
         self.original_x = x
         self.original_y = y
+        # sets size of image
         self.original_width = width
         self.original_height = height
         self.centered = centered
@@ -16,6 +19,7 @@ class Entity:
         self.update_rect()
 
     def set_pos(self, x, y, centered=True):
+        # changes the position of where the image is drwan
         self.original_x = x
         self.original_y = y
         self.centered = centered
@@ -46,11 +50,11 @@ class Entity:
         self.rect = pygame.Rect(x, y, w, h)
 
     def handle_events(self, events):
-        """Override this method to handle events (e.g., clicks, keyboard input)."""
+        # Override this method to handle events (e.g., clicks, keyboard input).
         pass
 
     def update(self):
-        """Override this method for updates (e.g., movement, animations)."""
+        # Override this method for updates (e.g., movement, animations).
         pass
 
     def render(self, screen):

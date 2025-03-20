@@ -3,6 +3,7 @@ import time
 from entities.entity import Entity
 from corporation import Corporation
 
+
 class GameAgent(Entity, Corporation):
     def __init__(self, name, starting_space, token_path):
         self.current_space = starting_space
@@ -44,11 +45,11 @@ class GameAgent(Entity, Corporation):
     def jump_spaces(self, num=1):
         self.move_path = []
         next_space = self.current_space
-        
+
         for _ in range(num):
             next_space = next_space.next_space
             self.move_path.append(next_space)
-        
+
         self.moving = True
         self.cooldown_active = False  # reset any previous cooldown
         self.last_move_time = pygame.time.get_ticks()

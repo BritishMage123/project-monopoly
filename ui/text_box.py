@@ -1,7 +1,9 @@
 import pygame
 from ui.ui_element import UIElement
 
+
 class TextBox(UIElement):
+    # creates a text box for typing the players name
     def __init__(self, x, y, width=200, height=50, placeholder="Enter text...", font_size=32,
                  centered=True, text_color="BLACK", on_submit = None):
         super().__init__(x, y, width, height, "", font_size, centered=centered, text_color=text_color)
@@ -11,7 +13,7 @@ class TextBox(UIElement):
         self.on_submit = on_submit
 
     def handle_events(self, events):
-        """Handles input and focus detection."""
+        # Handles input and focus detection.
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.active = self.rect.collidepoint(event.pos)
@@ -27,6 +29,7 @@ class TextBox(UIElement):
 
 
     def render(self, screen):
+        # draws the text box
         pygame.draw.rect(screen, (255, 255, 255), self.rect)
         pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
         self.render_text(screen)

@@ -3,6 +3,7 @@ import pygame
 import json
 
 class UIElement(Entity):
+    # a child class from entities to create UI elements on the screen
     def __init__(self, x, y, width, height, text="", font_size=32, centered=True, text_color="BLACK"):
         super().__init__(x, y, width, height, centered=centered)
         self.text = text
@@ -12,7 +13,7 @@ class UIElement(Entity):
         self.text_color = colors[text_color]
 
     def render_text(self, screen):
-        """Helper function to render text in the center of the element."""
+        # Helper function to render text in the center of the element.#
         text_surface = self.font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
