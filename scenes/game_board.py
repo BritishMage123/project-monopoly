@@ -4,11 +4,13 @@ from ui.text_label import TextLabel
 from ui.text_box import TextBox
 from entities.dice import Dice
 from entities.game_agent import GameAgent
+from ui.information_boxes import InfoBox
 import board_setup
 import pygame
 import importlib
 import glob
 import os
+
 
 
 class GameBoard(Scene):
@@ -60,6 +62,7 @@ class GameBoard(Scene):
 
         # Player setup
         self.players = []
+        self.player_count = 0
         for p in player_setup_list:
             new_player = GameAgent(p["name"], self.spaces.get_head_space(), p["token"])
             self.players.append({
@@ -68,8 +71,32 @@ class GameBoard(Scene):
                 "path_size": 0
             })
             self.add_entity(new_player)
-
+            self.player_count = self.player_count + 1
         self.player_turn = 0
+
+        # player display
+        self.TextBoxes = []
+        print(self.player_count)
+        for p in range(self.player_count):
+            # textboxes of the different players
+            if p == 0:
+                Xcord = 0.65
+                YCord = 0.2
+            elif p == 1:
+                Xcord = 0.875
+                YCord = 0.2
+            elif p == 2:
+                Xcord = 0.65
+                YCord = 0.5
+            elif p == 3:
+                Xcord = 0.875
+                YCord = 0.5
+            self.Textbox = InfoBox(self.screen_width * Xcord, self.screen_height * YCord,
+                                    self.screen_width * 0.2, self.screen_height * 0.2,
+                                    "Player" + str(p + 1), "Name: " + self.players[p]["game_agent"].get_name(),
+                                    "Cash: " + str(self.players[p]["game_agent"].get_balance()))
+            self.TextBoxes.append(self.Textbox)
+            self.add_entity(self.Textbox)
 
         # Load events
         self.space_event_classes = {}
@@ -170,6 +197,11 @@ class GameBoard(Scene):
             if p["game_agent"].moving and len(p["game_agent"].move_path) != p["path_size"]:
                 self.on_pass(p["game_agent"], p["game_agent"].current_space)
                 p["path_size"] = len(p["game_agent"].move_path)
+
+        # updates the balance displayed on the text box of each player in case of changes
+        for p in range(self.player_count):
+            new_balance = self.players[p]["game_agent"].get_balance()
+            self.TextBoxes[p].change_bal(new_balance)
 
     def render(self, screen):
         # draws the things that need to be displayed on the screen

@@ -8,7 +8,7 @@ class GameManager:
     def __init__(self):
         pygame.init()
         # sets the begining settings including screen size
-        self.screen = pygame.display.set_mode((800, 800))
+        self.screen = pygame.display.set_mode((1920, 1080))
         self.clock = pygame.time.Clock()
         self.running = True
         self.scene = MainMenu(self)  # Start with MainMenu
