@@ -76,8 +76,12 @@ class PropertyEvent(SceneEvent):
         self.scene.next_turn() # ALWAYS NEED TO DO THIS ONCE DONE
 
     def buy_property(self):
-        # Set ownership
-        self.property.owner = self.player
+        # Set ownership if have enough money
+        property_price = self.property.get_value()
+        player_balance = self.player.bank_balance
+        if player_balance >= property_price:
+            self.player.bank_balance -= property_price
+            self.property.owner = self.player
 
         # Remove the UI
         self.clear_ui()
