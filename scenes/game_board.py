@@ -19,7 +19,7 @@ class GameBoard(Scene):
         self.screen_height = game_manager.screen.get_height()
 
         # Board spaces
-        self.spaces = board_setup.load_test_board(self.screen_width, self.screen_height)
+        self.spaces = board_setup.load_test_board(self.screen_width, self.screen_height, self)
         head_space = self.spaces.get_head_space()
         curr_space = head_space
         first_iteration = True

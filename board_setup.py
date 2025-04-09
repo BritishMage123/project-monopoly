@@ -3,7 +3,7 @@ import os
 from entities.space import LinkedSpaceList, Space
 from properties import Property
 
-def generate_spaces(space_json, property_json, screen_width, screen_height):
+def generate_spaces(space_json, property_json, screen_width, screen_height, scene):
     screen_size = min(screen_width, screen_height)
     with open(space_json, 'r') as file:
         space_data = json.load(file)
@@ -28,8 +28,8 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
     # Space generation
     space_list = LinkedSpaceList()
 
-    def create_space(x1, y1, info):
-        new_space = Space(x1, y1, s, info["space_type"], info["pass_reward"], info["name"], info["icon"], info["color"])
+    def create_space(scene, x1, y1, info):
+        new_space = Space(scene, x1, y1, s, info["space_type"], info["pass_reward"], info["name"], info["icon"], info["color"])
         
         # If a property, set up the appropriate property info
         if info["space_type"] == "PROPERTY":
@@ -53,7 +53,7 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
 
     # Start with bottom right
     x1, y1 = screen_size - board_margin - s, screen_size - board_margin - s
-    curr_space = create_space(x1, y1, space_data[0])
+    curr_space = create_space(scene, x1, y1, space_data[0])
     space_list.set_head_space(curr_space)
 
     d_idx = 0
@@ -62,7 +62,7 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
         dx = d[0] * (s + 1) # +1 for some padding between spaces
         dy = d[1] * (s + 1)
         x1, y1 = x1 + dx, y1 + dy
-        new_space = create_space(x1, y1, space_data[i])
+        new_space = create_space(scene, x1, y1, space_data[i])
         curr_space.set_next_space(new_space)
         curr_space = new_space
         if i % (num_each_side - 1) == 0:
@@ -72,11 +72,11 @@ def generate_spaces(space_json, property_json, screen_width, screen_height):
     
     return space_list
 
-def load_test_board(screen_width, screen_height):
+def load_test_board(screen_width, screen_height, scene):
     """For testing purposes only"""
     space_json = os.path.join("space_data.json")
     property_json = os.path.join("property_data.json")
-    return generate_spaces(space_json, property_json, screen_width, screen_height)
+    return generate_spaces(space_json, property_json, screen_width, screen_height, scene)
 
 def load_real_board(screen_width, screen_height):
     """The real deal"""
