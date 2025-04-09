@@ -136,8 +136,9 @@ class PropertyEvent(SceneEvent):
 
     def auction_exit(self):
         # Highest bidder gets property
-        self.player_auction_list[self.highest_bidder_idx][0].bank_balance -= self.player_auction_list[self.highest_bidder_idx][1]
-        self.property.owner = self.player_auction_list[self.highest_bidder_idx][0]
+        if not self.highest_bidder_idx is None:
+            self.player_auction_list[self.highest_bidder_idx][0].bank_balance -= self.player_auction_list[self.highest_bidder_idx][1]
+            self.property.owner = self.player_auction_list[self.highest_bidder_idx][0]
 
         self.clear_ui()
         self.scene.next_turn()
