@@ -66,8 +66,8 @@ class PropertyEvent(SceneEvent):
 
     def pay_tax(self):
         self.clear_ui()
-        self.player.decrease_balance(self.property.get_value())
-        self.property.owner.increase_balance(self.property.get_value())
+        self.player.decrease_balance(self.property.get_base_tax())
+        self.property.owner.increase_balance(self.property.get_base_tax())
         self.scene.next_turn()
 
     def auction_property(self):
