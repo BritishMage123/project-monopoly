@@ -119,6 +119,9 @@ class GameBoard(Scene):
 
     def on_land(self, player, space):
         """SCENE EVENT: Called when a player lands on a space (final destination)."""
+        print("BALANCES")
+        for p in self.players:
+            print(f"{p["game_agent"].name}: {p["game_agent"].bank_balance}")
 
         self.set_camera_quad(0)
         self.hide_player_turn_ui()
