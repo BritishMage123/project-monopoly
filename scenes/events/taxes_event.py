@@ -7,8 +7,7 @@ class TaxesEvent(SceneEvent):
     def on_land(self):
         """SCENE EVENT: Called when a player lands on this space"""
         print(f"{self.player.name} landed on a TAXES space.")
-        print(f"{self.player.name} just lost ${self.space.pass_reward}")
-        lost_amt = -1 * self.space.pass_reward
+        self.player.bank_balance += self.space.pass_reward
         self.scene.next_turn()
 
     def on_pass(self):

@@ -4,8 +4,9 @@ class Property:
         self.__name = name
         self.__value = value
         self.__base_tax = base_tax
-        self.__tax_multiplier = 1
         self.owner = owner
+        self.__rent_multipliers = [1, 5, 15, 45, 80, 125]
+        self.rent_idx = 0
     
     def set_name(self, name):
         self.__name = name
@@ -24,9 +25,9 @@ class Property:
 
     def get_base_tax(self):
         return self.__base_tax
-    
-    def set_tax_multiplier(self, multiplier):
-        self.__tax_multiplier = multiplier
 
     def get_tax_multiplier(self):
-        return self.__tax_multiplier
+        return self.__rent_multipliers[self.rent_idx]
+    
+    def upgrade(self):
+        self.rent_idx += 1

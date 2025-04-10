@@ -11,6 +11,9 @@ class GameAgent(Entity, Corporation):
         Entity.__init__(self, starting_pos[0][0], starting_pos[0][1], 60, 60, override_offsets=True)
         Corporation.__init__(self, name)
 
+        # jail info
+        self.remaining_sentence = 0
+
         # Load player token image
         self.token = pygame.image.load(token_path)
 
@@ -53,6 +56,16 @@ class GameAgent(Entity, Corporation):
         self.cooldown_active = False  # reset any previous cooldown
         self.last_move_time = pygame.time.get_ticks()
         return self.get_current_space()
+    
+    def go_to_jail(self):
+        curr_space = self.current_space.next_space
+        while curr_space != self.current_space:
+            if curr_space.text == "JAIL":
+                target_space = curr_space
+                break
+            curr_space = curr_space.next_space
+        self.set_current_space(target_space)
+        self.remaining_sentence = 2
 
     def update(self):
         now = pygame.time.get_ticks()

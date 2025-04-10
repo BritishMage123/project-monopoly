@@ -29,7 +29,7 @@
     },
     {
       "name": "Income Tax!",
-      "space_type": "CHANCE",
+      "space_type": "TAXES",
       "color": "DARKGREEN",
       "pass_reward": -200,
       "icon": ""
@@ -49,7 +49,7 @@
       "icon": ""
     },
     {
-      "name": "CHANCE!",
+      "name": "Opp. Knocks",
       "color": "ORANGE",
       "space_type": "CHANCE",
       "pass_reward": 0,
@@ -72,7 +72,7 @@
     {
       "name": "JAIL",
       "color": "WHITE",
-      "space_type": "JAIL",
+      "space_type": "VISITING",
       "pass_reward": 0,
       "icon": ""
     },
@@ -85,7 +85,7 @@
     },
     {
       "name": "Tesla Power Co",
-      "space_type": "PROPERTY",
+      "space_type": "VISITING",
       "color": "PINK",
       "pass_reward": 0,
       "icon": ""
@@ -107,7 +107,7 @@
     {
       "name": "Hove Station",
       "color": "GREY",
-      "space_type": "PROPERTY",
+      "space_type": "VISITING",
       "pass_reward": 0,
       "icon": ""
     },
@@ -142,8 +142,8 @@
     {
       "name": "Free Parking",
       "color": "LIGHTORANGE",
-      "space_type": "GO",
-      "pass_reward": 100,
+      "space_type": "JACKPOT",
+      "pass_reward": 0,
       "icon": ""
     },
     {
@@ -154,7 +154,7 @@
       "icon": ""
     },
     {
-      "name": "CHANCE!",
+      "name": "Opp. Knocks",
       "color": "ORANGE",
       "space_type": "CHANCE",
       "pass_reward": 0,
@@ -177,7 +177,7 @@
     {
       "name": "Falmer Station",
       "color": "GREY",
-      "space_type": "PROPERTY",
+      "space_type": "VISITING",
       "pass_reward": 0,
       "icon": ""
     },
@@ -198,7 +198,7 @@
     {
       "name": "Edison Water",
       "color": "PINK",
-      "space_type": "PROPERTY",
+      "space_type": "VISITING",
       "pass_reward": 0,
       "icon": ""
     },
@@ -247,12 +247,12 @@
     {
       "name": "Portslade Station",
       "color": "GREY",
-      "space_type": "PROPERTY",
+      "space_type": "VISITING",
       "pass_reward": 0,
       "icon": ""
     },
     {
-      "name": "Opportunity Knocks",
+      "name": "Opp. Knocks",
       "color": "ORANGE",
       "space_type": "CHANCE",
       "pass_reward": 0,
