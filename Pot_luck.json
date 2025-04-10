@@ -1,0 +1,110 @@
+[
+    {
+        "description": "Bank pays player £200",
+        "action": "money",
+        "value": 200,
+        "movement_location": ""
+    },
+        {
+        "description": "Bank pays player £50",
+        "action": "money",
+        "value": 50,
+        "movement_location": ""
+    },
+        {
+        "description": "Player token moves backwards to the Old Creek",
+        "action": "MoveBackwards",
+        "value": 0,
+        "movement_location": "The Old Creek"
+    },
+        {
+        "description": "Bank pays player £20",
+        "action": "money",
+        "value": 20,
+        "movement_location": ""
+    },
+        {
+        "description": "Bank pays player £200",
+        "action": "money",
+        "value": 200,
+        "movement_location": ""
+    },
+        {
+        "description": "Player pays £100 to the bank",
+        "action": "money",
+        "value": -100,
+        "movement_location": ""
+    },
+    {
+        "description": "Player pays £50 to the bank",
+        "action": "money",
+        "value": -50,
+        "movement_location": ""
+    },
+    {
+        "description": "Player pays £50 to the bank",
+        "action": "money",
+        "value": -50,
+        "movement_location": ""
+    },
+    {
+        "description": "Player moves forwards to GO",
+        "action": "movement",
+        "value": 0,
+        "movement_location": "GO!"
+    },
+    {
+        "description": "Bank pays player £50",
+        "action": "money",
+        "value": 50,
+        "movement_location": ""
+    },
+    {
+        "description": "Player pays £50 to the bank",
+        "action": "money",
+        "value": -50,
+        "movement_location": ""
+    },
+    {
+        "description": "pay 10 pounds to free parking or take chance card",
+        "action": "IF_OR",
+        "value": -10,
+        "movement_location": ""
+    },
+    {
+        "description": "Player puts £50 on free parking",
+        "action": "parking_money",
+        "value": -50,
+        "movement_location": ""
+    },
+    {
+        "description": "Bank pays £100 to the player",
+        "action": "money",
+        "value": 100,
+        "movement_location": ""
+    },
+    {
+        "description": "Go to jail.",
+        "action": "jail",
+        "value": -200,
+        "movement_location": "JAIL"
+    },
+    {
+        "description": "Bank pays player £25",
+        "action": "money",
+        "value": -50,
+        "movement_location": ""
+    },
+    {
+        "description": "Player receives £10 from each player",
+        "action": "moneyAll",
+        "value": 10,
+        "movement_location": ""
+    },
+    {
+        "description": "Get out of jail free card",
+        "action": "JailFree",
+        "value": 0,
+        "movement_location": ""
+    }
+]
