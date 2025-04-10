@@ -17,6 +17,7 @@ class Space(Entity):
         self.scene = scene
 
         self.show_house_prompt = False
+        self.show_jackpot = False
 
         self.house_price = None
         # Prices hard coded for now
@@ -55,21 +56,25 @@ class Space(Entity):
     
     def handle_events(self, events):
         """When a space is clicked"""
-        if self.space_type != "PROPERTY":
-            return
         mouse_pos = pygame.mouse.get_pos()
         mouse_over = self.rect.collidepoint(mouse_pos)
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and mouse_over:
-                if self.player_owns_group() and self.property.rent_idx <= 5 and self.would_be_even():
-                    # Player is able and chooses to buy a house if enough money
-                    if self.scene.players[self.scene.player_turn]["game_agent"].bank_balance >= self.house_price:
-                        self.scene.players[self.scene.player_turn]["game_agent"].bank_balance  -= self.house_price
-                        self.property.upgrade()
-        if mouse_over and self.player_owns_group() and self.property.rent_idx <= 4 and self.would_be_even():
-            self.show_house_prompt = True
-        else:
-            self.show_house_prompt = False
+        if self.space_type == "PROPERTY":
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and mouse_over:
+                    if self.player_owns_group() and self.property.rent_idx <= 5 and self.would_be_even():
+                        # Player is able and chooses to buy a house if enough money
+                        if self.scene.players[self.scene.player_turn]["game_agent"].bank_balance >= self.house_price:
+                            self.scene.players[self.scene.player_turn]["game_agent"].bank_balance  -= self.house_price
+                            self.property.upgrade()
+            if mouse_over and self.player_owns_group() and self.property.rent_idx <= 4 and self.would_be_even():
+                self.show_house_prompt = True
+            else:
+                self.show_house_prompt = False
+        elif self.space_type == "JACKPOT":
+            if mouse_over:
+                self.show_jackpot = True
+            else:
+                self.show_jackpot = False
     
     def get_coordinates(self):
         """Returns (
@@ -90,6 +95,8 @@ class Space(Entity):
         with open("ui/colors.json", 'r') as file:
             colors = json.load(file)
         color_rgb = colors[self.color] if not self.show_house_prompt else colors["WHITE"]
+        if self.show_jackpot:
+            color_rgb = colors["WHITE"]
 
         # Draw top rectangle
         if self.space_type == "PROPERTY" and not self.show_house_prompt:
@@ -126,6 +133,9 @@ class Space(Entity):
                 text_surface = font.render(f"+HOUSE: £{self.house_price}", True, (0, 0, 0))
             else:
                 text_surface = font.render(f"+HOTEL: £{self.house_price}", True, (0, 0, 0))
+        elif self.show_jackpot:
+            font = pygame.font.Font(None, 13 * self.camera_scale)
+            text_surface = font.render(f"£{self.scene.jackpot}", True, (0, 0, 0))
         else:
             font = pygame.font.Font(None, 10 * self.camera_scale)
             text_surface = font.render(self.text, True, (0, 0, 0))

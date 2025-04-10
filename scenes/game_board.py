@@ -32,6 +32,8 @@ class GameBoard(Scene):
             if curr_space is None:
                 break
 
+        self.jackpot = 0
+
         # Roll dice button
         self.dice_button = Button(self.screen_width * 0.5, self.screen_height * 0.74, "Roll!", self.roll_dice)
 
@@ -68,6 +70,22 @@ class GameBoard(Scene):
             })
             self.add_entity(new_player)
         self.player_turn = 0
+
+        # Player balances UI
+        def gen_spacing_scalars(n):
+            if n <= 0:
+                return []
+            return [(i + 1) / (n + 1) for i in range(n)]
+        num_players = len(self.players)
+        x_scalars = gen_spacing_scalars(num_players)
+        for i in range(len(x_scalars)):
+            name_ui = TextLabel(self.screen_width * x_scalars[i],
+                                       self.screen_height * 0.3, self.players[i]["game_agent"].name, font_size=20)
+            balance_ui = TextLabel(self.screen_width * x_scalars[i],
+                                       self.screen_height * 0.33, f"£{self.players[i]["game_agent"].bank_balance}", font_size=20)
+            self.player_turn_ui.append(name_ui)
+            self.player_turn_ui.append(balance_ui)
+            self.players[i]["balance_ui"] = balance_ui
 
         # Load events
         self.space_event_classes = {}
@@ -119,17 +137,18 @@ class GameBoard(Scene):
 
     def on_land(self, player, space):
         """SCENE EVENT: Called when a player lands on a space (final destination)."""
-        print("BALANCES")
-        for p in self.players:
-            print(f"{p["game_agent"].name}: {p["game_agent"].bank_balance}")
-
         self.set_camera_quad(0)
         self.hide_player_turn_ui()
 
         self.call_space_event(player, space, "on_land")
     
     def next_turn(self):
+        # TODO: add bankruptcy (< 0 balance) and remove them from game
         self.player_turn = (self.player_turn + 1) % len(self.players)
+        # if player is in jail
+        if self.players[self.player_turn]["game_agent"].remaining_sentence > 0:
+            self.players[self.player_turn]["game_agent"].remaining_sentence -= 1
+            self.player_turn = (self.player_turn + 1) % len(self.players)
         self.show_player_turn_ui()
 
     def hide_player_turn_ui(self):
@@ -171,3 +190,6 @@ class GameBoard(Scene):
 
     def render(self, screen):
         super().render(screen)
+        for p in self.players:
+            updated_balance = p["game_agent"].bank_balance
+            p["balance_ui"].text = f"£{updated_balance}"
