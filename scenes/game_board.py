@@ -149,6 +149,9 @@ class GameBoard(Scene):
         if self.players[self.player_turn]["game_agent"].remaining_sentence > 0:
             self.players[self.player_turn]["game_agent"].remaining_sentence -= 1
             self.player_turn = (self.player_turn + 1) % len(self.players)
+        if self.players[self.player_turn]["game_agent"].bank_balance < 0:
+            self.remove_entity(self.players[self.player_turn]["game_agent"])
+            self.players.pop(self.player_turn)
         self.show_player_turn_ui()
 
     def hide_player_turn_ui(self):
