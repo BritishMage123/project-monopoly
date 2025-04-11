@@ -30,7 +30,7 @@ class CharacterCreation(Scene):
         self.new_character_button = Button(self.screen_width * 0.33, self.screen_height * 0.7,
                                     "New Character", self.new_character, button_color="LIGHTRED")
         self.new_ai_button = Button(self.screen_width * 0.66, self.screen_height * 0.7,
-                                    "New AI Character", self.new_ai_character, button_color="WHITE", text_color="BLACK")
+                                    "Random Character", self.new_ai_character, button_color="WHITE", text_color="BLACK")
         self.play_button = Button(self.screen_width * 0.5, self.screen_height * 0.85,
                                   "Play!", self.play_game, button_color="DARKGREEN", width=468)
 
